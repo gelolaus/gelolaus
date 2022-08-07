@@ -9,8 +9,6 @@
 
 - 📄 Know about my experiences [www.linkedin.com/in/gelolaus](https://linkedin.com/in/gelolaus)
 
-<p align="center"> <img src="https://komarev.com/ghpvc/?username=gelolaus&label=Profile%20views&color=0e75b6&style=flat" alt="gelolaus" /> </p>
-
 <p align="center"> <a href="https://github.com/ryo-ma/github-profile-trophy"><img src="https://github-profile-trophy.vercel.app/?username=gelolaus" alt="gelolaus" /></a> </p>
 
 ---
