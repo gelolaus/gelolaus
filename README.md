@@ -1,5 +1,5 @@
 <h1 align="center">Hi 👋, I'm Gelo</h1>
-<h3 align="center">An aspiring full-stack developer from the Philippines</h3>
+<h3 align="center">BS Jack of All Trades, Master of None</h3>
 
 - 🔭 I’m currently working on [Doon](https://github.com/gelolaus/doonWebApp)
 
