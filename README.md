@@ -7,7 +7,7 @@
 
 - 📫 Reach me at **angelolausofcl@gmail.com**
 
-- 📄 Know about my experiences [www.linkedin.com/in/gelolaus](www.linkedin.com/in/gelolaus)
+- 📄 Know about my experiences [www.linkedin.com/in/gelolaus](https://linkedin.com/in/gelolaus)
 
 <p align="center"> <img src="https://komarev.com/ghpvc/?username=gelolaus&label=Profile%20views&color=0e75b6&style=flat" alt="gelolaus" /> </p>
 
