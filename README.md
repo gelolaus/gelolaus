@@ -7,7 +7,7 @@
 
 - 📫 Reach me at **angelolausofcl@gmail.com**
 
-- 📄 Know about my experiences [www.linkedin.com/in/gelolaus](https://linkedin.com/in/gelolaus)
+- 📄 Know about my experiences at [www.linkedin.com/in/gelolaus](https://linkedin.com/in/gelolaus)
 
 <p align="center"> <a href="https://github.com/ryo-ma/github-profile-trophy"><img src="https://github-profile-trophy.vercel.app/?username=gelolaus" alt="gelolaus" /></a> </p>
 
