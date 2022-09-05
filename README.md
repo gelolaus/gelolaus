@@ -1,7 +1,7 @@
 <h1 align="center">Hi 👋, I'm Gelo</h1>
 <h3 align="center">BS Jack of All Trades, Master of None</h3>
 
-- 🔭 I’m currently working on [Rangya](https://github.com/rangya-dev/rangyaWebApp)
+- 🔭 I’m currently working on [Rangya](rangya.shop)
 
 - 🌱 I’m currently learning **Web Development**
 
