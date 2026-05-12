@@ -18,14 +18,8 @@ const MAX_PARTICLES = 100;
 const SPAWN_PER_FRAME = 3;
 
 const PALETTE = [
-  "#FF3B30", // red
-  "#FF9500", // orange
-  "#FFCC00", // yellow
-  "#30D158", // green
-  "#007AFF", // blue
-  "#BF5AF2", // purple
-  "#FF375F", // pink
-  "#00C7BE", // teal
+  "#FF3B30", "#FF9500", "#FFCC00", "#30D158",
+  "#007AFF", "#BF5AF2", "#FF375F", "#00C7BE",
 ];
 
 function createParticle(x: number, y: number): Particle {
@@ -60,6 +54,7 @@ export function ParticleCanvas() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     const s = stateRef.current;
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -74,10 +69,7 @@ export function ParticleCanvas() {
       if (s.isDown) {
         for (let i = 0; i < SPAWN_PER_FRAME; i++) {
           s.particles.push(createParticle(s.mouseX, s.mouseY));
-          // remove oldest if over cap
-          if (s.particles.length > MAX_PARTICLES) {
-            s.particles.shift();
-          }
+          if (s.particles.length > MAX_PARTICLES) s.particles.shift();
         }
       }
 
@@ -103,30 +95,33 @@ export function ParticleCanvas() {
     };
     s.rafId = requestAnimationFrame(tick);
 
+    // Disable all interaction on touch devices — confetti is a mouse-only feature
+    if (isTouch) {
+      return () => {
+        cancelAnimationFrame(s.rafId);
+        window.removeEventListener("resize", resize);
+      };
+    }
+
     const setPos = (x: number, y: number) => {
       s.mouseX = x;
       s.mouseY = y;
     };
 
-    const onMouseDown = (e: MouseEvent) => { s.isDown = true; setPos(e.clientX, e.clientY); };
-    const onMouseMove = (e: MouseEvent) => { setPos(e.clientX, e.clientY); };
-    const onMouseUp = () => { s.isDown = false; };
-
-    const onTouchStart = (e: TouchEvent) => {
+    const onMouseDown = (e: MouseEvent) => {
       s.isDown = true;
-      setPos(e.touches[0].clientX, e.touches[0].clientY);
+      setPos(e.clientX, e.clientY);
     };
-    const onTouchMove = (e: TouchEvent) => {
-      setPos(e.touches[0].clientX, e.touches[0].clientY);
+    const onMouseMove = (e: MouseEvent) => {
+      // Auto-correct isDown if mouseup was missed (e.g. during native drag-and-drop)
+      if (e.buttons === 0) s.isDown = false;
+      setPos(e.clientX, e.clientY);
     };
-    const onTouchEnd = () => { s.isDown = false; };
+    const onMouseUp = () => { s.isDown = false; };
 
     window.addEventListener("mousedown", onMouseDown);
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
-    window.addEventListener("touchend", onTouchEnd);
 
     return () => {
       cancelAnimationFrame(s.rafId);
@@ -134,9 +129,6 @@ export function ParticleCanvas() {
       window.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", onTouchEnd);
     };
   }, []);
 

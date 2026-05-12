@@ -54,7 +54,7 @@ html {
 
 body {
   background-color: var(--color-bg);
-  background-image: radial-gradient(circle, var(--color-dot) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(circle, var(--color-dot) 0.75px, transparent 0.75px);
   background-size: 120px 120px;
   color: var(--color-text);
   font-family: var(--font-geist), system-ui, sans-serif;
@@ -62,11 +62,41 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   cursor: none;
+  user-select: none;
+  -webkit-user-select: none;
   transition: background-color 0.4s ease, color 0.3s ease;
 }
 
+/* Re-enable text selection only when directly targeting content elements */
+p, h1, h2, h3, h4, h5, h6, blockquote, li {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* Center dot grid on small screens only */
+@media (max-width: 767px) {
+  body {
+    background-position: center;
+  }
+  .footer-dark {
+    background-position: center;
+  }
+  .dot-matrix {
+    background-position: center;
+  }
+}
+
 @media (pointer: coarse) {
-  body { cursor: auto; }
+  body {
+    cursor: auto;
+  }
+  /* Prevent touch hover states from sticking on footer links */
+  .footer-link:hover {
+    color: #F5F5F5;
+  }
+  .footer-link:hover .footer-arrow {
+    transform: none;
+  }
 }
 
 ::selection {
@@ -83,7 +113,7 @@ body {
 
 /* ─── Dot matrix ─── */
 .dot-matrix {
-  background-image: radial-gradient(circle, var(--color-dot) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(circle, var(--color-dot) 0.75px, transparent 0.75px);
   background-size: 120px 120px;
 }
 
@@ -104,7 +134,7 @@ body {
 .text-display { font-size: clamp(2.5rem, 5.5vw, 6rem); line-height: 1.0; letter-spacing: -0.03em; }
 .text-heading { font-size: clamp(1.25rem, 2.5vw, 2rem); line-height: 1.2; letter-spacing: -0.02em; }
 .text-body-lg { font-size: clamp(1rem, 1.2vw, 1.125rem); line-height: 1.75; }
-.text-caption { font-size: clamp(0.75rem, 1.2vw, 0.95rem); line-height: 1.5; letter-spacing: 0.08em; font-weight: 600; }
+.text-caption { font-size: clamp(0.875rem, 1.2vw, 1rem); line-height: 1.5; letter-spacing: 0.08em; font-weight: 600; }
 
 /* ─── Hover underline draw ─── */
 .link-underline {

@@ -99,7 +99,7 @@ export function Contact() {
               letterSpacing: "0.06em",
             }}
           >
-            ANGELO LAUS — {new Date().getFullYear()}
+            ANGELO LAUS · {new Date().getFullYear()}
           </span>
         </div>
       </div>

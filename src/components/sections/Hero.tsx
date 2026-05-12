@@ -4,6 +4,13 @@ import { motion } from "framer-motion";
 
 const ease: [number, number, number, number] = [0.4, 0, 0.2, 1];
 
+const socials = [
+  { label: "Email", href: "mailto:hello@gelolaus.com" },
+  { label: "Facebook", href: "https://facebook.com/gelolaus" },
+  { label: "Instagram", href: "https://instagram.com/gelolaus" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/gelolaus" },
+];
+
 export function Hero({ loaded }: { loaded: boolean }) {
   return (
     <section
@@ -19,7 +26,6 @@ export function Hero({ loaded }: { loaded: boolean }) {
       }}
     >
       <div style={{ position: "relative", zIndex: 1 }}>
-        {/* Hi, I'm @gelolaus! — one line, one color */}
         <motion.h1
           className="text-hero"
           initial={{ opacity: 0, y: 28 }}
@@ -37,7 +43,6 @@ export function Hero({ loaded }: { loaded: boolean }) {
           Hi, I&apos;m @gelolaus!
         </motion.h1>
 
-        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={loaded ? { opacity: 1, y: 0 } : {}}
@@ -53,6 +58,56 @@ export function Hero({ loaded }: { loaded: boolean }) {
         >
           Community Builder. Student Leader.
         </motion.p>
+
+        {/* Social link pills */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={loaded ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease, delay: 0.5 }}
+          style={{
+            display: "flex",
+            gap: "0.625rem",
+            flexWrap: "wrap",
+            marginTop: "clamp(1.5rem, 4vw, 2.5rem)",
+          }}
+        >
+          {socials.map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              target={s.href.startsWith("mailto") ? undefined : "_blank"}
+              rel="noopener noreferrer"
+              data-cursor="cta"
+              style={{
+                fontFamily: "var(--font-geist-mono)",
+                fontSize: "clamp(0.85rem, 1.3vw, 1rem)",
+                fontWeight: 500,
+                color: "var(--color-text-muted)",
+                textDecoration: "none",
+                letterSpacing: "0.05em",
+                padding: "0.7rem 1.75rem",
+                border: "1px solid var(--color-border)",
+                borderRadius: "9999px",
+                display: "inline-flex",
+                alignItems: "center",
+                cursor: "none",
+                transition: "border-color 0.2s ease, color 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = "var(--color-accent)";
+                el.style.color = "var(--color-text)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = "var(--color-border)";
+                el.style.color = "var(--color-text-muted)";
+              }}
+            >
+              {s.label}
+            </a>
+          ))}
+        </motion.div>
 
         {/* Scroll indicator */}
         <motion.div

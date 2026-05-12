@@ -16,22 +16,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "gelolaus — Angelo Laus",
-  description: "Hi, I'm @gelolaus — community builder, student leader, and maker.",
+  title: "gelolaus · Angelo Laus",
+  description: "Hi, I'm @gelolaus, community builder, student leader, and maker.",
   icons: {
     icon: "/avatar.ico",
     apple: "/avatar.ico",
   },
   openGraph: {
-    title: "gelolaus — Angelo Laus",
-    description: "Hi, I'm @gelolaus — community builder, student leader, and maker.",
+    title: "gelolaus · Angelo Laus",
+    description: "Hi, I'm @gelolaus, community builder, student leader, and maker.",
     url: "https://gelolaus.com",
     siteName: "gelolaus",
     images: [{ url: "/avatar.png" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "gelolaus — Angelo Laus",
+    title: "gelolaus · Angelo Laus",
     images: ["/avatar.png"],
   },
 };

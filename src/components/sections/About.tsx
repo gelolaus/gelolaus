@@ -6,8 +6,8 @@ import Image from "next/image";
 
 const roles = [
   { label: "Campus Leader", sub: "Notion" },
-  { label: "Local Partnerships", sub: "Sip & Scale" },
-  { label: "Director of External Relations", sub: "Junior Philippine Computer Society - Asia Pacific College" },
+  { label: "Sip & Scale Partnerships", sub: "Sip & Scale" },
+  { label: "JPCS-APC Director of Externals", sub: "Junior Philippine Computer Society - Asia Pacific College" },
   { label: "CS Student", sub: "Asia Pacific College" },
 ];
 
@@ -16,13 +16,13 @@ const fadeUp = {
   visible: (i: number) => ({
     y: 0,
     opacity: 1,
-    transition: { type: "spring" as const, stiffness: 280, damping: 24, delay: i * 0.07 },
+    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay: i * 0.12 },
   }),
 };
 
 export function About() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-120px" });
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -127,8 +127,8 @@ export function About() {
               marginBottom: "1.25rem",
             }}
           >
-            I&apos;m Angelo, a Computer Science student at Asia Pacific College. I find the
-            intersection of community, productivity, and craft genuinely exciting — I build
+            I&apos;m Gelo, a Computer Science student at Asia Pacific College. I find the
+            intersection of community, productivity, and craft genuinely exciting. I build
             things that solve real problems, then make them look good.
           </motion.p>
 
@@ -146,7 +146,7 @@ export function About() {
             }}
           >
             I spend as much time growing communities as I do writing code. Notion Campus
-            Leader, JPCS external lead, Sip &amp; Scale local partner — always building
+            Leader, JPCS external lead, Sip &amp; Scale local partner, always building
             something with people.
           </motion.p>
 
