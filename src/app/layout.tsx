@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { PageTransitionProvider } from "@/components/PageTransition";
+import { ParticleCanvas } from "@/components/ParticleCanvas";
+import { KeyboardNav } from "@/components/KeyboardNav";
 import "./globals.css";
 
 const geist = Geist({
@@ -44,7 +47,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${geist.variable} ${geistMono.variable}`}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <PageTransitionProvider>
+            <ParticleCanvas />
+            <KeyboardNav />
+            {children}
+          </PageTransitionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

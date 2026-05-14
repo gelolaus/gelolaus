@@ -1,18 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
+import { TransitionLink } from "@/components/TransitionLink";
 
 const links = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
+  { label: "About", href: "/#about" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Contact", href: "/#contact" },
+  { label: "Journal", href: "/journal" },
+];
+
+const journalLinks = [
+  { label: "Posts", href: "/journal#journal-posts" },
   { label: "Contact", href: "#contact" },
 ];
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
+  const pathname = usePathname();
+  const isJournalPage = pathname?.startsWith("/journal") ?? false;
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -67,8 +77,8 @@ export function Nav() {
       }}
     >
       {/* Logo */}
-      <a
-        href="#hero"
+      <TransitionLink
+        href="/"
         data-cursor="nav"
         style={{
           fontFamily: "var(--font-geist)",
@@ -81,30 +91,53 @@ export function Nav() {
         }}
       >
         @gelolaus
-      </a>
+      </TransitionLink>
 
-      {/* Links — hidden on mobile */}
-      {!isMobile && links.map((link) => (
-        <a
-          key={link.href}
-          href={link.href}
-          data-cursor="nav"
-          className="link-underline"
-          style={{
-            fontFamily: "var(--font-geist)",
-            fontWeight: 400,
-            fontSize: "0.85rem",
-            color: "var(--color-text-muted)",
-            textDecoration: "none",
-            padding: "4px 8px",
-            transition: "color 0.2s ease",
-          }}
-          onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "var(--color-text)")}
-          onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "var(--color-text-muted)")}
-        >
-          {link.label}
-        </a>
-      ))}
+      {/* Links — hidden on mobile; journal pages get a curated subset */}
+      {!isMobile && (isJournalPage ? journalLinks : links).map((link) => {
+        const linkStyle = {
+          fontFamily: "var(--font-geist)",
+          fontWeight: 400,
+          fontSize: "0.85rem",
+          color: "var(--color-text-muted)",
+          textDecoration: "none",
+          padding: "4px 8px",
+          transition: "color 0.2s ease",
+          cursor: "none" as const,
+        };
+        const handlers = {
+          onMouseEnter: (e: React.MouseEvent<HTMLElement>) =>
+            ((e.target as HTMLElement).style.color = "var(--color-text)"),
+          onMouseLeave: (e: React.MouseEvent<HTMLElement>) =>
+            ((e.target as HTMLElement).style.color = "var(--color-text-muted)"),
+        };
+        // Path links (including hash-suffixed paths) → TransitionLink (handles same-page hash too)
+        // Pure anchor links (#contact, /#section) → plain <a>
+        const isPathLink = link.href.startsWith("/") && !link.href.startsWith("/#");
+        return isPathLink ? (
+          <TransitionLink
+            key={link.label}
+            href={link.href}
+            data-cursor="nav"
+            className="link-underline"
+            style={linkStyle}
+            {...handlers}
+          >
+            {link.label}
+          </TransitionLink>
+        ) : (
+          <a
+            key={link.label}
+            href={link.href}
+            data-cursor="nav"
+            className="link-underline"
+            style={linkStyle}
+            {...handlers}
+          >
+            {link.label}
+          </a>
+        );
+      })}
 
       {/* Dark mode toggle */}
       {mounted && (

@@ -1,17 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import { TransitionLink } from "@/components/TransitionLink";
 
 const sections = [
-  { label: "Home", href: "#hero" },
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
+  { label: "Home", href: "/#hero" },
+  { label: "About", href: "/#about" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Contact", href: "/#contact" },
+  { label: "Journal", href: "/journal" },
+];
+
+const journalSections = [
+  { label: "Home", href: "/" },
+  { label: "Posts", href: "/journal#journal-posts" },
   { label: "Contact", href: "#contact" },
 ];
 
 export function ScrollNav() {
+  const pathname = usePathname();
+  const activeLinks = pathname?.startsWith("/journal") ? journalSections : sections;
   const [visible, setVisible] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -57,38 +68,53 @@ export function ScrollNav() {
               boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
             }}
           >
-            {sections.map((s) => (
-              <a
-                key={s.href}
-                href={s.href}
-                data-cursor="nav"
-                onClick={() => setOpen(false)}
-                style={{
-                  fontFamily: "var(--font-geist)",
-                  fontSize: "0.875rem",
-                  fontWeight: 400,
-                  color: "var(--color-text-muted)",
-                  textDecoration: "none",
-                  padding: "0.55rem 1.1rem",
-                  borderRadius: "10px",
-                  cursor: "none",
-                  transition: "background 0.15s ease, color 0.15s ease",
-                  whiteSpace: "nowrap",
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget;
-                  el.style.background = "var(--color-surface-raised)";
-                  el.style.color = "var(--color-text)";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget;
-                  el.style.background = "transparent";
-                  el.style.color = "var(--color-text-muted)";
-                }}
-              >
-                {s.label}
-              </a>
-            ))}
+            {activeLinks.map((s) => {
+              const itemStyle = {
+                fontFamily: "var(--font-geist)",
+                fontSize: "0.875rem",
+                fontWeight: 400,
+                color: "var(--color-text-muted)",
+                textDecoration: "none",
+                padding: "0.55rem 1.1rem",
+                borderRadius: "10px",
+                cursor: "none" as const,
+                transition: "background 0.15s ease, color 0.15s ease",
+                whiteSpace: "nowrap" as const,
+                display: "block",
+              };
+              const handlers = {
+                onClick: () => setOpen(false),
+                onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+                  e.currentTarget.style.background = "var(--color-surface-raised)";
+                  e.currentTarget.style.color = "var(--color-text)";
+                },
+                onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.color = "var(--color-text-muted)";
+                },
+              };
+              return s.href.startsWith("/") && !s.href.startsWith("/#") ? (
+                <TransitionLink
+                  key={s.href}
+                  href={s.href}
+                  data-cursor="nav"
+                  style={itemStyle}
+                  {...handlers}
+                >
+                  {s.label}
+                </TransitionLink>
+              ) : (
+                <a
+                  key={s.href}
+                  href={s.href}
+                  data-cursor="nav"
+                  style={itemStyle}
+                  {...handlers}
+                >
+                  {s.label}
+                </a>
+              );
+            })}
           </motion.div>
         )}
       </AnimatePresence>
