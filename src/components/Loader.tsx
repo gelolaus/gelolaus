@@ -2,13 +2,17 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { usePageTransition } from "@/components/PageTransition";
 
 export function Loader({ onComplete }: { onComplete: () => void }) {
+  const { isTransitioning } = usePageTransition();
+  const [skip] = useState(() => isTransitioning);
   const loaderRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    if (skip) { onComplete(); return; }
     if (!loaderRef.current || !textRef.current) return;
 
     const handleComplete = () => {
@@ -51,7 +55,7 @@ export function Loader({ onComplete }: { onComplete: () => void }) {
     return () => clearTimeout(timeout);
   }, [onComplete]);
 
-  if (!visible) return null;
+  if (skip || !visible) return null;
 
   return (
     <div
