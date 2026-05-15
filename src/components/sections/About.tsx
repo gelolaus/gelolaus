@@ -87,6 +87,7 @@ export function About() {
             <Image
               src="/avatar.png"
               alt="Angelo Laus"
+              priority
               width={120}
               height={120}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}

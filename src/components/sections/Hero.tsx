@@ -60,7 +60,7 @@ export function Hero({ loaded }: { loaded: boolean }) {
         </motion.p>
 
         {/* Social link pills */}
-        <motion.div
+        <motion.ul
           initial={{ opacity: 0, y: 12 }}
           animate={loaded ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease, delay: 0.5 }}
@@ -68,12 +68,15 @@ export function Hero({ loaded }: { loaded: boolean }) {
             display: "flex",
             gap: "0.625rem",
             flexWrap: "wrap",
+            listStyle: "none",
+            padding: 0,
+            margin: 0,
             marginTop: "clamp(1.5rem, 4vw, 2.5rem)",
           }}
         >
           {socials.map((s) => (
+            <li key={s.label} style={{ display: "inline-flex" }}>
             <a
-              key={s.label}
               href={s.href}
               target={s.href.startsWith("mailto") ? undefined : "_blank"}
               rel="noopener noreferrer"
@@ -106,8 +109,9 @@ export function Hero({ loaded }: { loaded: boolean }) {
             >
               {s.label}
             </a>
+            </li>
           ))}
-        </motion.div>
+        </motion.ul>
 
         {/* Scroll indicator */}
         <motion.div
