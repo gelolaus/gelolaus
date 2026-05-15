@@ -210,7 +210,7 @@ export function Projects() {
                   }}
                 >
                   <div>
-                    <p
+                    <h3
                       style={{
                         fontFamily: "var(--font-geist)",
                         fontWeight: 700,
@@ -221,7 +221,7 @@ export function Projects() {
                       }}
                     >
                       {projects[current].title}
-                    </p>
+                    </h3>
                     <p
                       style={{
                         fontFamily: "var(--font-geist)",
@@ -389,7 +389,7 @@ export function Projects() {
               </div>
 
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p
+                <h3
                   style={{
                     fontFamily: "var(--font-geist)",
                     fontWeight: 600,
@@ -400,7 +400,7 @@ export function Projects() {
                   }}
                 >
                   {project.title}
-                </p>
+                </h3>
                 <p
                   style={{
                     fontFamily: "var(--font-geist)",

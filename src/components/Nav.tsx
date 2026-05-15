@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { TransitionLink } from "@/components/TransitionLink";
@@ -27,6 +28,9 @@ export function Nav() {
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const activeLinks = isJournalPage ? journalLinks : links;
 
   useEffect(() => {
     setMounted(true);
@@ -54,6 +58,11 @@ export function Nav() {
       window.removeEventListener("resize", checkMobile);
     };
   }, [lastScrollY]);
+
+  // Close mobile menu when nav hides on scroll
+  useEffect(() => {
+    if (!visible) setMenuOpen(false);
+  }, [visible]);
 
   return (
     <nav
@@ -93,8 +102,8 @@ export function Nav() {
         @gelolaus
       </TransitionLink>
 
-      {/* Links — hidden on mobile; journal pages get a curated subset */}
-      {!isMobile && (isJournalPage ? journalLinks : links).map((link) => {
+      {/* Links — desktop only; journal pages get a curated subset */}
+      {!isMobile && activeLinks.map((link) => {
         const linkStyle = {
           fontFamily: "var(--font-geist)",
           fontWeight: 400,
@@ -111,8 +120,6 @@ export function Nav() {
           onMouseLeave: (e: React.MouseEvent<HTMLElement>) =>
             ((e.target as HTMLElement).style.color = "var(--color-text-muted)"),
         };
-        // Path links (including hash-suffixed paths) → TransitionLink (handles same-page hash too)
-        // Pure anchor links (#contact, /#section) → plain <a>
         const isPathLink = link.href.startsWith("/") && !link.href.startsWith("/#");
         return isPathLink ? (
           <TransitionLink
@@ -139,8 +146,153 @@ export function Nav() {
         );
       })}
 
-      {/* Dark mode toggle */}
-      {mounted && (
+      {/* Hamburger — mobile only */}
+      {isMobile && (
+        <button
+          onClick={() => setMenuOpen((prev) => !prev)}
+          aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+          aria-expanded={menuOpen}
+          data-cursor="nav"
+          style={{
+            width: "32px",
+            height: "32px",
+            borderRadius: "50%",
+            border: "1px solid var(--color-border)",
+            background: "transparent",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transition: "background 0.2s ease, border-color 0.2s ease, color 0.2s ease",
+            color: "var(--color-text)",
+            fontSize: "14px",
+            flexShrink: 0,
+          }}
+        >
+          {menuOpen ? "✕" : "☰"}
+        </button>
+      )}
+
+      {/* Mobile dropdown */}
+      <AnimatePresence>
+        {isMobile && menuOpen && (
+          <div
+            style={{
+              position: "absolute",
+              top: "calc(100% + 10px)",
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 1000,
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: -8, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.96 }}
+              transition={{ duration: 0.18, ease: [0.4, 0, 0.2, 1] }}
+              style={{
+                background: "var(--color-surface)",
+                border: "1px solid var(--color-border)",
+                borderRadius: "14px",
+                padding: "6px",
+                backdropFilter: "blur(16px)",
+                display: "flex",
+                flexDirection: "column",
+                gap: "2px",
+                minWidth: "160px",
+                boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
+              }}
+            >
+              {activeLinks.map((link) => {
+                const itemStyle: React.CSSProperties = {
+                  fontFamily: "var(--font-geist)",
+                  fontSize: "0.875rem",
+                  fontWeight: 400,
+                  color: "var(--color-text-muted)",
+                  textDecoration: "none",
+                  padding: "0.55rem 1.1rem",
+                  borderRadius: "10px",
+                  transition: "background 0.15s ease, color 0.15s ease",
+                  whiteSpace: "nowrap",
+                  display: "block",
+                };
+                const handlers = {
+                  onClick: () => setMenuOpen(false),
+                  onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+                    e.currentTarget.style.background = "var(--color-surface-raised)";
+                    e.currentTarget.style.color = "var(--color-text)";
+                  },
+                  onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.color = "var(--color-text-muted)";
+                  },
+                };
+                const isPathLink = link.href.startsWith("/") && !link.href.startsWith("/#");
+                return isPathLink ? (
+                  <TransitionLink
+                    key={link.label}
+                    href={link.href}
+                    style={itemStyle}
+                    {...handlers}
+                  >
+                    {link.label}
+                  </TransitionLink>
+                ) : (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    style={itemStyle}
+                    {...handlers}
+                  >
+                    {link.label}
+                  </a>
+                );
+              })}
+
+              {/* Divider */}
+              <div style={{ height: "1px", background: "var(--color-border)", margin: "4px 2px" }} />
+
+              {/* Dark mode toggle */}
+              {mounted && (
+                <button
+                  onClick={() => {
+                    setTheme(theme === "dark" ? "light" : "dark");
+                    setMenuOpen(false);
+                  }}
+                  style={{
+                    fontFamily: "var(--font-geist)",
+                    fontSize: "0.875rem",
+                    fontWeight: 400,
+                    color: "var(--color-text-muted)",
+                    padding: "0.55rem 1.1rem",
+                    borderRadius: "10px",
+                    border: "none",
+                    background: "transparent",
+                    cursor: "pointer",
+                    width: "100%",
+                    textAlign: "left",
+                    whiteSpace: "nowrap",
+                    transition: "background 0.15s ease, color 0.15s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "var(--color-surface-raised)";
+                    e.currentTarget.style.color = "var(--color-text)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.color = "var(--color-text-muted)";
+                  }}
+                >
+                  {theme === "dark" ? "Light mode" : "Dark mode"}
+                </button>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Dark mode toggle — desktop only; mobile uses the burger dropdown */}
+      {mounted && !isMobile && (
         <button
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           data-cursor="nav"

@@ -48,9 +48,11 @@ export function ScrollNav() {
       }}
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
+      onTouchStart={() => setOpen((prev) => !prev)}
     >
       <AnimatePresence>
         {open && visible && (
+          <nav aria-label="Page sections">
           <motion.div
             initial={{ opacity: 0, y: 10, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -116,6 +118,7 @@ export function ScrollNav() {
               );
             })}
           </motion.div>
+          </nav>
         )}
       </AnimatePresence>
 

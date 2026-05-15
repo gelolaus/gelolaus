@@ -191,7 +191,7 @@ function EntryCard({ entry, align }: { entry: Entry; align: "left" | "right" }) 
 
   return (
     <div style={{ textAlign: align }}>
-      <p
+      <h3
         style={{
           fontFamily: "var(--font-geist)",
           fontWeight: 600,
@@ -203,7 +203,7 @@ function EntryCard({ entry, align }: { entry: Entry; align: "left" | "right" }) 
         }}
       >
         {entry.role}
-      </p>
+      </h3>
       <p
         style={{
           fontFamily: "var(--font-geist)",
