@@ -28,7 +28,7 @@ export function Hero({ loaded }: { loaded: boolean }) {
       <div style={{ position: "relative", zIndex: 1 }}>
         <motion.h1
           className="text-hero"
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 1, y: 0 }}
           animate={loaded ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.75, ease, delay: 0.05 }}
           style={{
@@ -125,13 +125,16 @@ export function Hero({ loaded }: { loaded: boolean }) {
             marginTop: "clamp(3rem, 8vw, 5rem)",
           }}
         >
-          <motion.span
-            animate={{ y: [0, 6, 0] }}
-            transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
-            style={{ display: "block", fontSize: "1.1rem", color: "var(--color-text-muted)" }}
+          <span
+            style={{
+              display: "block",
+              fontSize: "1.1rem",
+              color: "var(--color-text-muted)",
+              animation: "bounce-arrow 1.6s ease-in-out infinite",
+            }}
           >
             ↓
-          </motion.span>
+          </span>
           <span
             className="text-caption"
             style={{
