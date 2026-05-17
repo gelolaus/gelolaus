@@ -134,6 +134,12 @@ p, h1, h2, h3, h4, h5, h6, blockquote, li {
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+/* ─── Scroll indicator bounce ─── */
+@keyframes bounce-arrow {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
 /* ─── Fluid type scale ─── */
 .text-hero    { font-size: clamp(2.8rem, 8vw, 7rem); line-height: 0.92; letter-spacing: -0.04em; }
 .text-display { font-size: clamp(2.5rem, 5.5vw, 6rem); line-height: 1.0; letter-spacing: -0.03em; }
@@ -179,6 +185,28 @@ p, h1, h2, h3, h4, h5, h6, blockquote, li {
 .footer-arrow {
   transition: transform 0.25s ease;
   flex-shrink: 0;
+}
+
+/* ─── About section responsive grid ─── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 5vw, 4rem);
+  align-items: start;
+}
+@media (min-width: 860px) {
+  .about-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+}
+
+/* ─── Projects section responsive layout toggle ─── */
+.projects-desktop { display: none; }
+.projects-mobile  { display: block; }
+@media (min-width: 768px) {
+  .projects-desktop { display: block; }
+  .projects-mobile  { display: none; }
 }
 
 /* ─── Blog prose ─── */
