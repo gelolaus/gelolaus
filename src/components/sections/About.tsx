@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 
@@ -23,6 +23,14 @@ const fadeUp = {
 export function About() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-120px" });
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 860);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   return (
     <section
@@ -53,7 +61,14 @@ export function About() {
         About
       </motion.p>
 
-      <div className="about-grid">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: isDesktop ? "1fr 1fr" : "1fr",
+          gap: isDesktop ? "clamp(3rem, 6vw, 6rem)" : "clamp(2.5rem, 5vw, 4rem)",
+          alignItems: "start",
+        }}
+      >
         {/* Left — avatar + headline + narrative */}
         <div>
           <motion.div
@@ -72,6 +87,7 @@ export function About() {
             <Image
               src="/avatar.png"
               alt="Angelo Laus"
+              priority
               width={120}
               height={120}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}

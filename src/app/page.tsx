@@ -1,30 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
 import { Loader } from "@/components/Loader";
 import { Cursor } from "@/components/Cursor";
 import { Nav } from "@/components/Nav";
 import { ScrollNav } from "@/components/ScrollNav";
 import { Hero } from "@/components/sections/Hero";
-import { ParticleCanvas } from "@/components/ParticleCanvas";
-
-const About = dynamic(
-  () => import("@/components/sections/About").then((m) => ({ default: m.About })),
-  { ssr: false }
-);
-const Experience = dynamic(
-  () => import("@/components/sections/Experience").then((m) => ({ default: m.Experience })),
-  { ssr: false }
-);
-const Projects = dynamic(
-  () => import("@/components/sections/Projects").then((m) => ({ default: m.Projects })),
-  { ssr: false }
-);
-const Contact = dynamic(
-  () => import("@/components/sections/Contact").then((m) => ({ default: m.Contact })),
-  { ssr: false }
-);
+import { About } from "@/components/sections/About";
+import { Experience } from "@/components/sections/Experience";
+import { Projects } from "@/components/sections/Projects";
+import { Contact } from "@/components/sections/Contact";
 
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
@@ -42,7 +27,6 @@ export default function Home() {
 
   return (
     <>
-      <ParticleCanvas />
       {showLoader && (
         <Loader
           onComplete={() => {
