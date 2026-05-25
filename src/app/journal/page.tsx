@@ -8,6 +8,7 @@ import { getAllPosts } from "@/lib/blog";
 export const metadata: Metadata = {
   title: "Journal · gelolaus",
   description: "Thoughts on tech, community, and building things that matter.",
+  alternates: { canonical: "/journal" },
   openGraph: {
     title: "Journal · gelolaus",
     description: "Thoughts on tech, community, and building things that matter.",

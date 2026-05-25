@@ -29,6 +29,9 @@ export const metadata: Metadata = {
   keywords: [
     "Angelo Laus",
     "gelolaus",
+    "Gelo Laus",
+    "Gelo",
+    "angelolaus",
     "community builder",
     "student leader",
     "Asia Pacific College",
@@ -39,7 +42,7 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
-  alternates: { canonical: "https://gelolaus.com" },
+  alternates: { canonical: "/" },
   icons: {
     icon: "/avatar.ico",
     apple: "/avatar.ico",
@@ -74,7 +77,7 @@ const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Angelo Laus",
-  alternateName: "@gelolaus",
+  alternateName: ["gelolaus", "@gelolaus", "Gelo Laus", "Gelo", "angelolaus"],
   url: "https://gelolaus.com",
   email: "hello@gelolaus.com",
   jobTitle: "Community Builder & Student Leader",
@@ -100,6 +103,14 @@ const websiteSchema = {
   description:
     "Personal portfolio of Angelo Laus (@gelolaus) — community builder, student leader, and maker.",
   author: { "@type": "Person", name: "Angelo Laus" },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://gelolaus.com/journal?q={search_term_string}",
+    },
+    "query-input": "required name=search_term_string",
+  },
 };
 
 export default function RootLayout({

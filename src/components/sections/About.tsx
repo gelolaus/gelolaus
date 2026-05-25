@@ -128,7 +128,7 @@ export function About() {
               marginBottom: "1.25rem",
             }}
           >
-            I&apos;m Gelo, a Computer Science student at Asia Pacific College. I find the
+            I&apos;m Gelo Laus (Angelo Laus), a Computer Science student at Asia Pacific College. I find the
             intersection of community, productivity, and craft genuinely exciting. I build
             things that solve real problems, then make them look good.
           </motion.p>
