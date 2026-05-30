@@ -197,6 +197,7 @@ function BlogCard({
       variants={fadeUp}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
+      style={{ height: "100%" }}
     >
       <TransitionLink
         href={`/journal/${post.slug}`}
@@ -204,7 +205,9 @@ function BlogCard({
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
-          display: "block",
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
           padding: "clamp(1.5rem, 3vw, 2.5rem)",
           border: "1px solid",
           borderRadius: "16px",
@@ -281,6 +284,11 @@ function BlogCard({
             color: "var(--color-text-muted)",
             lineHeight: 1.65,
             marginBottom: "clamp(1.5rem, 2.5vw, 2rem)",
+            flexGrow: 1,
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
           }}
         >
           {post.excerpt}
