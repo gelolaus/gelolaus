@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import { Nav } from "@/components/Nav";
-import { ScrollNav } from "@/components/ScrollNav";
-import { Cursor } from "@/components/Cursor";
-import { BlogList } from "@/components/blog/BlogList";
+import Link from "next/link";
 import { getAllPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
@@ -23,14 +20,25 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogPage() {
+export default function JournalPage() {
   const posts = getAllPosts();
   return (
-    <>
-      <Cursor />
-      <Nav />
-      <ScrollNav />
-      <BlogList posts={posts} />
-    </>
+    <main className="page">
+      <Link href="/" className="back">
+        &larr; gelolaus.com
+      </Link>
+
+      <h1>Journal</h1>
+      <p className="muted">Thoughts on tech, community, and building things that matter.</p>
+
+      <ul className="journal-list">
+        {posts.map((post) => (
+          <li key={post.slug}>
+            <Link href={`/journal/${post.slug}`}>{post.title}</Link>
+            <span className="meta">{post.formattedDate}</span>
+          </li>
+        ))}
+      </ul>
+    </main>
   );
 }

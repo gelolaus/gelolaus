@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { PageTransitionProvider } from "@/components/PageTransition";
-import { ParticleCanvas } from "@/components/ParticleCanvas";
-import { KeyboardNav } from "@/components/KeyboardNav";
 import "./globals.css";
 
 const geist = Geist({
@@ -89,7 +85,6 @@ const personSchema = {
     name: "Asia Pacific College",
   },
   sameAs: [
-    "https://facebook.com/gelolaus",
     "https://instagram.com/gelolaus",
     "https://linkedin.com/in/gelolaus",
   ],
@@ -113,6 +108,8 @@ const websiteSchema = {
   },
 };
 
+const themeScript = `(function(){var h=new Date().getHours();if(h>=18||h<6){document.documentElement.classList.add("dark")}})()`;
+
 export default function RootLayout({
   children,
 }: {
@@ -125,6 +122,7 @@ export default function RootLayout({
       className={`${geist.variable} ${geistMono.variable}`}
     >
       <body>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
@@ -133,13 +131,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
-        <ThemeProvider>
-          <PageTransitionProvider>
-            <ParticleCanvas />
-            <KeyboardNav />
-            {children}
-          </PageTransitionProvider>
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );
