@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Nav } from "@/components/Nav";
-import { ScrollNav } from "@/components/ScrollNav";
-import { Cursor } from "@/components/Cursor";
-import { BlogPost } from "@/components/blog/BlogPost";
+import Link from "next/link";
 import { getAllPosts, getPostBySlug } from "@/lib/blog";
 
 export async function generateStaticParams() {
@@ -45,12 +42,29 @@ export default async function BlogPostPage({
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) notFound();
+
   return (
-    <>
-      <Cursor />
-      <Nav />
-      <ScrollNav />
-      <BlogPost post={post} />
-    </>
+    <main className="page">
+      <Link href="/journal" className="back">
+        &larr; Journal
+      </Link>
+
+      <header className="article-header">
+        <h1>{post.title}</h1>
+        <p className="meta">
+          {post.formattedDate} &middot; {post.readTime}
+        </p>
+      </header>
+
+      {post.coverImage && (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img src={post.coverImage} alt={post.title} className="article-cover" />
+      )}
+
+      <div
+        className="prose"
+        dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+      />
+    </main>
   );
 }
