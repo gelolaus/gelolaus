@@ -98,14 +98,6 @@ const websiteSchema = {
   description:
     "Personal portfolio of Angelo Laus (@gelolaus) — community builder, student leader, and maker.",
   author: { "@type": "Person", name: "Angelo Laus" },
-  potentialAction: {
-    "@type": "SearchAction",
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: "https://gelolaus.com/journal?q={search_term_string}",
-    },
-    "query-input": "required name=search_term_string",
-  },
 };
 
 const themeScript = `(function(){var h=new Date().getHours();if(h>=18||h<6){document.documentElement.classList.add("dark")}})()`;

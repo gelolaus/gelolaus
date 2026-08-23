@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
 
 export default function Home() {
@@ -8,9 +6,7 @@ export default function Home() {
       <h1>Angelo Laus</h1>
 
       <p>
-        I&apos;m @gelolaus, a builder and community lead from the Philippines.
-        I build practical solutions, scale the communities around them, and
-        design them to look good.
+        I&apos;m @gelolaus, a builder and community leader from the Philippines.
       </p>
 
       <p>My active roles:</p>
@@ -66,8 +62,7 @@ export default function Home() {
           LinkedIn
         </a>
         , or email{" "}
-        <a href="mailto:hello@gelolaus.com">hello@gelolaus.com</a>. I write
-        occasionally in my <Link href="/journal">journal</Link>.
+        <a href="mailto:hello@gelolaus.com">hello@gelolaus.com</a>.
       </p>
     </main>
   );

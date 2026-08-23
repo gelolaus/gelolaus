@@ -18,6 +18,7 @@ export async function generateMetadata({
   return {
     title: `${post.title} · gelolaus`,
     description: post.excerpt,
+    robots: { index: false, follow: false },
     alternates: { canonical: `/journal/${slug}` },
     openGraph: {
       title: `${post.title} · gelolaus`,

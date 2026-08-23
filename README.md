@@ -1,6 +1,6 @@
 # Angelo Laus
 
-I'm @gelolaus, a builder and community lead from the Philippines. I build practical solutions, scale the communities around them, and design them to look good.
+I'm @gelolaus, a builder and community leader from the Philippines.
 
 My active roles:
 
@@ -14,4 +14,4 @@ Things I've built:
 - [Eypi (2026)](https://eypi.cc) – Unified campus suite for student org links, forms, and ticketing.
 - Homelab (2026) – Self-hosted infrastructure for private cloud storage and network security.
 
-Connect with me on [Instagram](https://instagram.com/gelolaus) or [LinkedIn](https://linkedin.com/in/gelolaus), or email [hello@gelolaus.com](mailto:hello@gelolaus.com). I write occasionally in my [journal](https://gelolaus.com/journal).
+Connect with me on [Instagram](https://instagram.com/gelolaus) or [LinkedIn](https://linkedin.com/in/gelolaus), or email [hello@gelolaus.com](mailto:hello@gelolaus.com).
