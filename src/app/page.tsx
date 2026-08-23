@@ -13,30 +13,25 @@ export default function Home() {
         design them to look good.
       </p>
 
-      <p>Most of my time goes to community:</p>
+      <p>My active roles:</p>
       <ul className="home-list">
         <li>
           <a href="https://instagram.com/notionhq" {...ext}>
             Notion
-          </a>
-          : Cohort 4 (Fall 2025) Campus Leader and Community Lead for{" "}
-          <a href="https://instagram.com/notion.at.apc" {...ext}>
-            Notion @ APC
-          </a>
+          </a>{" "}
+          Campus Leader (Cohort 4)
         </li>
         <li>
           <a href="https://instagram.com/sipnscale" {...ext}>
             Sip &amp; Scale
-          </a>
-          : Partnerships Lead for student communities, restaurants, and
-          caf&eacute;s
+          </a>{" "}
+          Partnerships
         </li>
         <li>
           <a href="https://instagram.com/jpcs.apc" {...ext}>
             JPCS-APC
-          </a>
-          : Vice President for External Affairs; leads partnerships with
-          Google, Arduino, DataCamp, and Notion
+          </a>{" "}
+          VP for External Affairs
         </li>
       </ul>
 
@@ -45,33 +40,19 @@ export default function Home() {
         <li>
           <a href="https://wantap.cc" {...ext}>
             Wantap (2026)
-          </a>
-          : A calling card people tap with their phone; same card, same link,
-          you change the page without printing a new one.
+          </a>{" "}
+          &ndash; Digital calling card platform with custom dynamic routing.
         </li>
         <li>
           <a href="https://eypi.cc" {...ext}>
             Eypi (2026)
-          </a>
-          : An org suite for Asia Pacific College student organizations,
-          students, &amp; staff; one campus login for links, forms, frames,
-          &amp; tickets.
+          </a>{" "}
+          &ndash; Unified campus suite for student org links, forms, and
+          ticketing.
         </li>
         <li>
-          Homelab (2026): A personal self-hosted homelab for privacy and
-          productivity; features{" "}
-          <a href="https://cloud.gelolaus.com" {...ext}>
-            Nextcloud
-          </a>
-          ,{" "}
-          <a href="https://adguard.gelolaus.com" {...ext}>
-            AdGuard Home
-          </a>
-          ,{" "}
-          <a href="https://bentopdf.gelolaus.com" {...ext}>
-            BentoPDF
-          </a>
-          , and dedicated VPN routing.
+          Homelab (2026) &ndash; Self-hosted infrastructure for private cloud
+          storage and network security.
         </li>
       </ul>
 
