@@ -221,3 +221,43 @@ h1 + p {
   border-top: 1px solid var(--border);
   margin-block: 2.5rem;
 }
+
+/* ─── Static pages (about, contact, privacy, docs) ─── */
+.static-prose {
+  margin-top: 2rem;
+}
+
+.static-prose ul {
+  list-style: disc;
+}
+
+.static-prose li::marker {
+  color: var(--ink-secondary);
+}
+
+.static-prose h2:first-child {
+  margin-top: 0;
+}
+
+/* ─── Footer ─── */
+.site-footer {
+  margin-top: 3.5rem;
+  font-size: 0.9375rem;
+  color: var(--ink-secondary);
+}
+
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+}
+
+.site-footer a {
+  color: inherit;
+  text-decoration-color: transparent;
+}
+
+.site-footer a:hover {
+  color: var(--ink);
+  text-decoration-color: currentColor;
+}

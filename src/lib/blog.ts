@@ -3,6 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import { marked } from "marked";
 import readingTime from "reading-time";
+import { SITE_URL } from "@/lib/profile";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "journal");
 
@@ -80,4 +81,19 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     readTime: rt.text,
     contentHtml,
   };
+}
+
+export function getPostMarkdown(slug: string): string | null {
+  if (!fs.existsSync(CONTENT_DIR)) return null;
+  const filename = fs
+    .readdirSync(CONTENT_DIR)
+    .find((f) => f.endsWith(".md") && slugFromFilename(f) === slug);
+  if (!filename) return null;
+
+  const raw = fs.readFileSync(path.join(CONTENT_DIR, filename), "utf-8");
+  const { data, content } = matter(raw);
+  const cover = data.coverImage
+    ? `![${data.title}](${SITE_URL}${data.coverImage})\n\n`
+    : "";
+  return `# ${data.title}\n\n${formatDate(data.date as string)} · ${readingTime(content).text}\n\n${cover}${content.trim()}\n`;
 }

@@ -1,69 +1,59 @@
+import { SiteFooter } from "@/components/site-footer";
+import { profile, projects, roles } from "@/lib/profile";
+
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
 
 export default function Home() {
   return (
     <main className="page">
-      <h1>Angelo Laus</h1>
+      <h1>{profile.name}</h1>
 
-      <p>
-        I&apos;m @gelolaus, a builder and community leader from the Philippines.
-      </p>
+      <p>{profile.intro}</p>
 
       <p>My active roles:</p>
       <ul className="home-list">
-        <li>
-          <a href="https://instagram.com/notionhq" {...ext}>
-            Notion
-          </a>{" "}
-          Campus Leader (Cohort 4)
-        </li>
-        <li>
-          <a href="https://instagram.com/sipnscale" {...ext}>
-            Sip &amp; Scale
-          </a>{" "}
-          Partnerships
-        </li>
-        <li>
-          <a href="https://instagram.com/jpcs.apc" {...ext}>
-            JPCS-APC
-          </a>{" "}
-          VP for External Affairs
-        </li>
+        {roles.map((role) => (
+          <li key={role.organization}>
+            <a href={role.url} {...ext}>
+              {role.organization}
+            </a>{" "}
+            {role.title}
+          </li>
+        ))}
       </ul>
 
       <p>Things I&apos;ve built:</p>
       <ul className="home-list">
-        <li>
-          <a href="https://wantap.cc" {...ext}>
-            Wantap (2026)
-          </a>{" "}
-          &ndash; Digital calling card platform with custom dynamic routing.
-        </li>
-        <li>
-          <a href="https://eypi.cc" {...ext}>
-            Eypi (2026)
-          </a>{" "}
-          &ndash; Unified campus suite for student org links, forms, and
-          ticketing.
-        </li>
-        <li>
-          Homelab (2026) &ndash; Self-hosted infrastructure for private cloud
-          storage and network security.
-        </li>
+        {projects.map((project) => {
+          const label = `${project.name} (${project.year})`;
+          return (
+            <li key={project.name}>
+              {project.url ? (
+                <a href={project.url} {...ext}>
+                  {label}
+                </a>
+              ) : (
+                label
+              )}{" "}
+              &ndash; {project.description}
+            </li>
+          );
+        })}
       </ul>
 
       <p>
         Connect with me on{" "}
-        <a href="https://instagram.com/gelolaus" {...ext}>
+        <a href={profile.links.instagram} {...ext}>
           Instagram
         </a>{" "}
         or{" "}
-        <a href="https://linkedin.com/in/gelolaus" {...ext}>
+        <a href={profile.links.linkedin} {...ext}>
           LinkedIn
         </a>
-        , or email{" "}
-        <a href="mailto:hello@gelolaus.com">hello@gelolaus.com</a>.
+        , or email <a href={`mailto:${profile.email}`}>{profile.email}</a>.
       </p>
+
+      <SiteFooter />
     </main>
   );
 }
