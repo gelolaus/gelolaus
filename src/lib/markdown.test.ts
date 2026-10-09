@@ -72,6 +72,15 @@ describe("/md route", () => {
     expect(body).toContain(profile.email);
   });
 
+  it("links only to the API docs and llms.txt, like the homepage footer", async () => {
+    const body = await (await viaMd()).text();
+    const more = body.slice(body.indexOf("## More"));
+    expect([...more.matchAll(/\]\((https:[^)]+)\)/g)].map((m) => m[1])).toEqual([
+      "https://gelolaus.com/docs",
+      "https://gelolaus.com/llms.txt",
+    ]);
+  });
+
   it("serves every static page as Markdown", async () => {
     for (const page of getStaticPages()) {
       const res = await viaMd(page.path.slice(1).split("/"));

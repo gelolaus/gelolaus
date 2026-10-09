@@ -30,9 +30,6 @@ Connect with me on [Instagram](${profile.links.instagram}) or [LinkedIn](${profi
 
 ## More
 
-- [About](${SITE_URL}/about)
-- [Contact](${SITE_URL}/contact)
-- [Privacy](${SITE_URL}/privacy)
 - [API documentation](${DOCS_URL})
 - [llms.txt](${SITE_URL}/llms.txt)
 `;
