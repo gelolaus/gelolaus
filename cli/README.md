@@ -1,6 +1,6 @@
 # gelolaus
 
-Command-line client for the [gelolaus.com public API](https://gelolaus.com/docs): the profile, roles, and projects of Angelo Laus (@gelolaus), as JSON. No dependencies, Node 18 or newer.
+Command-line client for the [gelolaus.com public API](https://gelolaus.com/docs): my profile, roles, and projects (I'm Angelo Laus, @gelolaus), as JSON. No dependencies, Node 18 or newer.
 
 ```bash
 npx gelolaus profile

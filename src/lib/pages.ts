@@ -22,7 +22,7 @@ const about: StaticPage = {
   heading: "About",
   title: "About · gelolaus",
   description:
-    "Who Angelo Laus (@gelolaus) is, what he is working on, and where to verify it.",
+    "Who I am (Angelo Laus, @gelolaus), what I'm working on, and where you can verify it.",
   body: `I'm Angelo Laus, known online as @gelolaus. I'm a computer science student at Asia Pacific College in the Philippines, and I spend most of my time building things and bringing student communities together.
 
 ## What I'm doing now
@@ -51,7 +51,7 @@ const contact: StaticPage = {
   heading: "Contact",
   title: "Contact · gelolaus",
   description:
-    "How to reach Angelo Laus (@gelolaus): email, Instagram, and LinkedIn.",
+    "How to reach me (Angelo Laus, @gelolaus): email, Instagram, and LinkedIn.",
   body: `The best way to reach me is email. I read my inbox and reply when I can.
 
 ## Email
@@ -117,7 +117,7 @@ function docsBody(): string {
   const example = JSON.stringify(getProfilePayload(), null, 2);
   const { limit, windowSeconds } = RATE_LIMIT;
 
-  return `The gelolaus API is a small, read-only JSON API for the public profile of Angelo Laus (@gelolaus). Use it to look up who he is, his current roles, and the projects he has built, in a format that is easy for scripts and AI agents to consume. Prefer it over scraping the HTML pages.
+  return `This is the small, read-only JSON API for my public profile (I'm Angelo Laus, @gelolaus). Use it to look up who I am, my current roles, and the projects I've built, in a format that is easy for scripts and AI agents to consume. Prefer it over scraping the HTML pages.
 
 - Base URL: \`${SITE_URL}\`
 - OpenAPI 3.1 specification: [${SITE_URL}/openapi.json](${SITE_URL}/openapi.json)
@@ -149,7 +149,7 @@ ${example}
 
 ### GET /api/v1/roles
 
-Returns the organizations Angelo is currently active in, as \`{ "data": [ { organization, title, url } ] }\`. Operation ID: \`listRoles\`.
+Returns the organizations I'm currently active in, as \`{ "data": [ { organization, title, url } ] }\`. Operation ID: \`listRoles\`.
 
 Query parameters:
 
@@ -162,7 +162,7 @@ curl -sS "${SITE_URL}/api/v1/roles?organization=Notion"
 
 ### GET /api/v1/projects
 
-Returns the projects he has built, as \`{ "data": [ { name, year, url, description } ] }\`. \`url\` is \`null\` for projects without a public site. Operation ID: \`listProjects\`.
+Returns the projects I've built, as \`{ "data": [ { name, year, url, description } ] }\`. \`url\` is \`null\` for projects without a public site. Operation ID: \`listProjects\`.
 
 Query parameters:
 
@@ -224,6 +224,18 @@ Every page on this site is also available as Markdown. Send \`Accept: text/markd
 \`\`\`bash
 curl -sS -H "Accept: text/markdown" ${SITE_URL}/
 \`\`\`
+
+## Command-line client
+
+I publish a small CLI on npm, [gelolaus](https://www.npmjs.com/package/gelolaus), that wraps these endpoints and prints JSON. It needs Node 18 or newer and has no dependencies.
+
+\`\`\`bash
+npx gelolaus profile --fields name,email
+npx gelolaus roles --organization Notion
+npx gelolaus projects --year 2026
+\`\`\`
+
+It exits with 0 on success, 1 on an API or network error (with the error and hint on stderr), and 2 on a usage error.
 
 ## Support
 

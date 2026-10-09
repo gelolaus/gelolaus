@@ -156,6 +156,12 @@ describe("llms.txt", () => {
     expect(text).toContain("#versioning-and-deprecation");
   });
 
+  it("points agents at the npm CLI", () => {
+    const text = renderLlmsTxt();
+    expect(text).toContain("npx gelolaus profile");
+    expect(text).toContain("https://www.npmjs.com/package/gelolaus");
+  });
+
   it("lists every static page it describes", () => {
     const text = renderLlmsTxt();
     for (const page of getStaticPages()) {

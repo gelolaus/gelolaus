@@ -47,9 +47,9 @@ export function getOpenApiSpec() {
     info: {
       title: "gelolaus.com API",
       version: `${API_VERSION}.0.0`,
-      summary: "Read-only public profile API for Angelo Laus (@gelolaus).",
+      summary: "Read-only API for my public profile (Angelo Laus, @gelolaus).",
       description:
-        "Returns the public profile, current roles, and projects of Angelo Laus (@gelolaus). All endpoints are read-only and need no authentication. Errors are JSON with a stable code, a message, and a resolution hint. The API is versioned in the URL path (/api/v1); breaking changes ship under a new version, and deprecations are announced with Deprecation and Sunset headers (see the versioning policy in the documentation).",
+        "Returns my public profile, current roles, and projects (I'm Angelo Laus, @gelolaus). All endpoints are read-only and need no authentication. Errors are JSON with a stable code, a message, and a resolution hint. The API is versioned in the URL path (/api/v1); breaking changes ship under a new version, and deprecations are announced with Deprecation and Sunset headers (see the versioning policy in the documentation).",
       contact: { name: profile.name, url: SITE_URL, email: profile.email },
     },
     servers: [{ url: SITE_URL, description: "Production" }],
@@ -66,7 +66,7 @@ export function getOpenApiSpec() {
           operationId: "getProfile",
           summary: "Get the full public profile",
           description:
-            "Returns the name, handle, summary, location, contact email, social links, current roles, and projects of Angelo Laus in one response. Use this first to identify or verify who @gelolaus is. Pass `fields` to receive only some of the properties.",
+            "Returns my name, handle, summary, location, contact email, social links, current roles, and projects in one response. Use this first to identify or verify who @gelolaus is. Pass `fields` to receive only some of the properties.",
           tags: ["Profile"],
           parameters: [
             {
@@ -98,7 +98,7 @@ export function getOpenApiSpec() {
           operationId: "listRoles",
           summary: "List current roles",
           description:
-            "Returns the organizations Angelo Laus is currently active in, with his title at each one. Pass `organization` to look up a single organization; an organization with no match returns an empty list.",
+            "Returns the organizations I'm currently active in, with my title at each one. Pass `organization` to look up a single organization; an organization with no match returns an empty list.",
           tags: ["Profile"],
           parameters: [
             {
@@ -123,7 +123,7 @@ export function getOpenApiSpec() {
           operationId: "listProjects",
           summary: "List projects",
           description:
-            "Returns the projects Angelo Laus has built. Pass `year` to return only projects from that year; a year with no projects returns an empty list.",
+            "Returns the projects I've built. Pass `year` to return only projects from that year; a year with no projects returns an empty list.",
           tags: ["Profile"],
           parameters: [
             {
@@ -153,16 +153,16 @@ export function getOpenApiSpec() {
             name: { type: "string", description: "Full name.", example: profile.name },
             handle: { type: "string", description: "Handle used across platforms.", example: profile.handle },
             summary: { type: "string", description: "One-sentence introduction." },
-            location: { type: "string", description: "Country where he is based.", example: profile.location },
-            url: { type: "string", format: "uri", description: "Canonical website." },
-            email: { type: "string", format: "email", description: "Contact email address." },
+            location: { type: "string", description: "Country where I'm based.", example: profile.location },
+            url: { type: "string", format: "uri", description: "My website." },
+            email: { type: "string", format: "email", description: "My contact email address." },
             links: {
               type: "object",
-              description: "Verified social profiles.",
+              description: "My social profiles.",
               required: ["instagram", "linkedin"],
               properties: {
-                instagram: { type: "string", format: "uri", description: "Instagram profile." },
-                linkedin: { type: "string", format: "uri", description: "LinkedIn profile." },
+                instagram: { type: "string", format: "uri", description: "My Instagram profile." },
+                linkedin: { type: "string", format: "uri", description: "My LinkedIn profile." },
               },
             },
             roles: { type: "array", items: ref("Role") },
@@ -188,7 +188,7 @@ export function getOpenApiSpec() {
           required: ["organization", "title", "url"],
           properties: {
             organization: { type: "string", description: "Organization name.", example: "Notion" },
-            title: { type: "string", description: "His role there.", example: "Campus Leader (Cohort 4)" },
+            title: { type: "string", description: "My role there.", example: "Campus Leader (Cohort 4)" },
             url: { type: "string", format: "uri", description: "The organization's public profile." },
           },
         },

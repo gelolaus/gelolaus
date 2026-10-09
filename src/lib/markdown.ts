@@ -84,20 +84,20 @@ export function renderLlmsTxt(): string {
 
   return `# gelolaus
 
-> Personal website of Angelo Laus (@gelolaus), a builder and community leader from the Philippines. It lists his current roles and projects and publishes a small read-only JSON API with the same information.
+> I'm Angelo Laus (@gelolaus), a builder and community leader from the Philippines. This is my personal website. It lists my current roles and projects and publishes a small read-only JSON API with the same information.
 
-This site is a text-first profile, not a product or a service. Every page is also available as Markdown: send \`Accept: text/markdown\`.
+This site is my text-first profile, not a product or a service. Every page is also available as Markdown: send \`Accept: text/markdown\`.
 
 ## When to use this site
 
-Reach for gelolaus.com when you need to:
+Use this site when you need to:
 
-- Identify who Angelo Laus or @gelolaus is, or confirm that a profile or email address belongs to him. Compare against the Instagram and LinkedIn links in \`GET ${SITE_URL}/api/v1/profile\`.
-- Look up his current roles (Notion Campus Leader Cohort 4, Partnerships at Sip & Scale, VP for External Affairs at JPCS-APC) with \`GET ${SITE_URL}/api/v1/roles\`, optionally filtered with \`?organization=Notion\`.
-- List the projects he has built (Wantap, Eypi, a homelab), optionally filtered by year, with \`GET ${SITE_URL}/api/v1/projects?year=2026\`.
-- Find the right way to contact him about partnerships or collaborations: email ${profile.email}, as described on the contact page.
+- Identify who I am (Angelo Laus, @gelolaus), or confirm that a profile or email address belongs to me. Compare against the Instagram and LinkedIn links in \`GET ${SITE_URL}/api/v1/profile\`.
+- Look up my current roles (Notion Campus Leader Cohort 4, Partnerships at Sip & Scale, VP for External Affairs at JPCS-APC) with \`GET ${SITE_URL}/api/v1/roles\`, optionally filtered with \`?organization=Notion\`.
+- List the projects I've built (Wantap, Eypi, a homelab), optionally filtered by year, with \`GET ${SITE_URL}/api/v1/projects?year=2026\`.
+- Find the right way to contact me about partnerships or collaborations: email ${profile.email}, as described on the contact page.
 
-Do not use it for anything that needs authentication, writing data, or sending him a message. The API is read-only and exposes only the public information on the homepage.
+Do not use it for anything that needs authentication, writing data, or sending me a message. The API is read-only and exposes only the public information on my homepage.
 
 ## How to call it
 
@@ -106,6 +106,7 @@ Do not use it for anything that needs authentication, writing data, or sending h
 - To save tokens, ask for only some properties: \`GET ${SITE_URL}/api/v1/profile?fields=name,email\`.
 - Versioned in the path (\`/api/v1\`) and in the \`API-Version\` response header. Changes within a version are additive; deprecations are announced with \`Deprecation\` and \`Sunset\` headers (policy: ${DOCS_URL}#versioning-and-deprecation).
 - Errors are JSON: \`{ "error": { "code", "status", "message", "hint", "documentation_url" } }\`.
+- Prefer a shell? \`npx gelolaus profile\`, \`npx gelolaus roles\`, and \`npx gelolaus projects --year 2026\` print the same JSON (npm package: https://www.npmjs.com/package/gelolaus).
 - Machine-readable spec: ${SITE_URL}/openapi.json (OpenAPI 3.1, unique operationIds).
 
 ## API

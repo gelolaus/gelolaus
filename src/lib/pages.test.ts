@@ -63,6 +63,15 @@ describe("API documentation page", () => {
     expect(renderMarkdown(body)).toContain('id="versioning-and-deprecation"');
   });
 
+  it("documents the npm CLI with example commands and exit codes", () => {
+    expect(body).toContain("## Command-line client");
+    expect(body).toContain("https://www.npmjs.com/package/gelolaus");
+    for (const cmd of ["npx gelolaus profile", "npx gelolaus roles", "npx gelolaus projects"]) {
+      expect(body).toContain(cmd);
+    }
+    expect(body).toMatch(/exits with 0.*1.*2/);
+  });
+
   it("renders an anchor for #errors", () => {
     expect(renderMarkdown(body)).toContain('id="errors"');
   });

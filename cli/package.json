@@ -1,7 +1,7 @@
 {
   "name": "gelolaus",
   "version": "1.0.0",
-  "description": "Command-line client for the gelolaus.com public API: Angelo Laus's profile, roles, and projects as JSON.",
+  "description": "Command-line client for the gelolaus.com public API: my profile, roles, and projects as JSON.",
   "keywords": ["gelolaus", "angelo-laus", "cli", "api", "profile"],
   "homepage": "https://gelolaus.com/docs",
   "repository": {

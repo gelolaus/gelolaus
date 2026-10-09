@@ -7,7 +7,7 @@ const index = withApi(() =>
     name: "gelolaus.com API",
     version: "v1",
     description:
-      "Read-only JSON API for the public profile of Angelo Laus (@gelolaus).",
+      "Read-only JSON API for my public profile (Angelo Laus, @gelolaus).",
     documentation: `${SITE_URL}/docs`,
     openapi: `${SITE_URL}/openapi.json`,
     endpoints: [
