@@ -4,7 +4,14 @@ import * as profileRoute from "@/app/api/v1/profile/route";
 import * as rolesRoute from "@/app/api/v1/roles/route";
 import * as projectsRoute from "@/app/api/v1/projects/route";
 import * as catchAll from "@/app/api/[[...path]]/route";
-import { RATE_LIMIT, withApi } from "@/lib/api";
+import {
+  API_VERSION,
+  DEPRECATION_NOTICE_DAYS,
+  deprecationHeaders,
+  RATE_LIMIT,
+  readOnlyRoute,
+  withApi,
+} from "@/lib/api";
 import { profile, projects, roles } from "@/lib/profile";
 
 let ipCounter = 0;
@@ -42,6 +49,9 @@ describe("GET /api/v1/profile", () => {
     );
     expect(res.headers.get("ratelimit")).toMatch(/^"default";r=\d+;t=\d+$/);
     expect(res.headers.get("access-control-allow-origin")).toBe("*");
+    expect(res.headers.get("api-version")).toBe(API_VERSION);
+    expect(res.headers.get("deprecation")).toBeNull();
+    expect(res.headers.get("sunset")).toBeNull();
 
     const body = await res.json();
     expect(body).toMatchObject({
@@ -52,6 +62,62 @@ describe("GET /api/v1/profile", () => {
       roles,
       projects,
     });
+  });
+});
+
+describe("GET /api/v1/profile?fields=", () => {
+  it("returns only the selected fields", async () => {
+    const res = await profileRoute.GET(
+      request("/api/v1/profile?fields=name,email"),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({
+      name: profile.name,
+      email: profile.email,
+    });
+  });
+
+  it("ignores order and surrounding spaces", async () => {
+    const res = await profileRoute.GET(
+      request("/api/v1/profile?fields=email,%20name"),
+    );
+    expect(Object.keys(await res.json())).toEqual(["name", "email"]);
+  });
+
+  it.each(["nope", "name,nope", ""])(
+    "rejects fields=%j with a JSON 400 listing valid fields",
+    async (fields) => {
+      const res = await profileRoute.GET(
+        request(`/api/v1/profile?fields=${fields}`),
+      );
+      expect(res.status).toBe(400);
+      const body = await res.json();
+      expectErrorShape(body, "invalid_parameter", 400);
+      expect(body.error.hint).toContain("projects");
+    },
+  );
+});
+
+describe("GET /api/v1/roles?organization=", () => {
+  it("filters case-insensitively", async () => {
+    const res = await rolesRoute.GET(
+      request("/api/v1/roles?organization=notion"),
+    );
+    expect((await res.json()).data).toEqual([roles[0]]);
+  });
+
+  it("returns an empty list when nothing matches", async () => {
+    const res = await rolesRoute.GET(
+      request("/api/v1/roles?organization=Nobody"),
+    );
+    expect(res.status).toBe(200);
+    expect((await res.json()).data).toEqual([]);
+  });
+
+  it("rejects an empty organization", async () => {
+    const res = await rolesRoute.GET(request("/api/v1/roles?organization="));
+    expect(res.status).toBe(400);
+    expectErrorShape(await res.json(), "invalid_parameter", 400);
   });
 });
 
@@ -157,5 +223,39 @@ describe("withApi", () => {
     const body = await res.json();
     expectErrorShape(body, "internal_error", 500);
     expect(JSON.stringify(body)).not.toContain("boom");
+  });
+});
+
+describe("versioning and deprecation headers", () => {
+  const deprecatedAt = new Date("2026-01-01T00:00:00Z");
+  const sunsetAt = new Date("2026-04-01T00:00:00Z");
+
+  it("formats Deprecation as an RFC 9745 date and links the policy", () => {
+    const headers = deprecationHeaders({ deprecatedAt });
+    expect(headers.Deprecation).toBe("@1767225600");
+    expect(headers.Link).toBe(
+      '<https://gelolaus.com/docs#versioning-and-deprecation>; rel="deprecation"; type="text/html"',
+    );
+    expect(headers.Sunset).toBeUndefined();
+  });
+
+  it("adds an RFC 8594 Sunset HTTP-date and a sunset link", () => {
+    const headers = deprecationHeaders({ deprecatedAt, sunsetAt });
+    expect(headers.Sunset).toBe("Wed, 01 Apr 2026 00:00:00 GMT");
+    expect(headers.Link).toContain('rel="sunset"');
+  });
+
+  it("sends the headers on every response of a deprecated route", async () => {
+    const route = readOnlyRoute(() => Response.json({}), {
+      deprecation: { deprecatedAt, sunsetAt },
+    });
+    const ok = await route.GET(request("/api/v1/old"));
+    expect(ok.headers.get("deprecation")).toBe("@1767225600");
+    expect(ok.headers.get("sunset")).toBe("Wed, 01 Apr 2026 00:00:00 GMT");
+    expect(ok.headers.get("api-version")).toBe(API_VERSION);
+  });
+
+  it("publishes a notice period of at least 90 days", () => {
+    expect(DEPRECATION_NOTICE_DAYS).toBeGreaterThanOrEqual(90);
   });
 });

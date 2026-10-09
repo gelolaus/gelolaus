@@ -4,6 +4,12 @@ import { SITE_URL } from "@/lib/profile";
 
 export const RATE_LIMIT = { limit: 60, windowSeconds: 60 } as const;
 
+/** Major version of the API served under /api/v1, sent as `API-Version`. */
+export const API_VERSION = "1";
+
+/** Minimum notice between announcing a deprecation and its sunset date. */
+export const DEPRECATION_NOTICE_DAYS = 90;
+
 export const DOCS_URL = `${SITE_URL}/docs`;
 
 const limiter = createRateLimiter(RATE_LIMIT);
@@ -13,7 +19,7 @@ const CORS_HEADERS = {
   "Access-Control-Allow-Methods": "GET, HEAD, OPTIONS",
   "Access-Control-Allow-Headers": "Accept, Content-Type",
   "Access-Control-Expose-Headers":
-    "RateLimit, RateLimit-Policy, RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, Retry-After",
+    "API-Version, Deprecation, Sunset, Link, RateLimit, RateLimit-Policy, RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, Retry-After",
 };
 
 export const ALLOWED_METHODS = ["GET", "HEAD", "OPTIONS"];
@@ -72,8 +78,37 @@ export function clientKey(request: Request): string {
 
 type Handler = (request: NextRequest) => Response | Promise<Response>;
 
+export type Deprecation = {
+  deprecatedAt: Date;
+  /** Earliest date the endpoint may stop working. */
+  sunsetAt?: Date;
+};
+
+/**
+ * Deprecation signals: `Deprecation` (RFC 9745, a structured-field Date),
+ * `Sunset` (RFC 8594, an HTTP-date), and a `Link` to the written policy.
+ */
+export function deprecationHeaders({
+  deprecatedAt,
+  sunsetAt,
+}: Deprecation): Record<string, string> {
+  const policy = `${DOCS_URL}#versioning-and-deprecation`;
+  const headers: Record<string, string> = {
+    Deprecation: `@${Math.floor(deprecatedAt.getTime() / 1000)}`,
+    Link: `<${policy}>; rel="deprecation"; type="text/html"`,
+  };
+  if (sunsetAt) {
+    headers.Sunset = sunsetAt.toUTCString();
+    headers.Link += `, <${policy}>; rel="sunset"; type="text/html"`;
+  }
+  return headers;
+}
+
+type ApiOptions = { deprecation?: Deprecation };
+
 function finalize(response: Response, extra: Record<string, string>): Response {
-  for (const [name, value] of Object.entries({ ...CORS_HEADERS, ...extra })) {
+  const headers = { ...CORS_HEADERS, "API-Version": API_VERSION, ...extra };
+  for (const [name, value] of Object.entries(headers)) {
     response.headers.set(name, value);
   }
   if (!response.headers.has("Cache-Control")) {
@@ -86,10 +121,13 @@ function finalize(response: Response, extra: Record<string, string>): Response {
  * Wraps an API handler with rate limiting, CORS, and JSON error handling so
  * every response from /api carries the same headers and error shape.
  */
-export function withApi(handler: Handler) {
+export function withApi(handler: Handler, options: ApiOptions = {}) {
   return async (request: NextRequest): Promise<Response> => {
     const result = limiter.check(clientKey(request));
-    const headers = rateLimitHeaders(result, RATE_LIMIT.windowSeconds);
+    const headers = {
+      ...rateLimitHeaders(result, RATE_LIMIT.windowSeconds),
+      ...(options.deprecation ? deprecationHeaders(options.deprecation) : {}),
+    };
 
     if (!result.allowed) {
       return finalize(
@@ -136,8 +174,8 @@ function methodNotAllowed(request: NextRequest) {
 }
 
 /** Builds the full method table for a read-only (GET) JSON endpoint. */
-export function readOnlyRoute(handler: Handler) {
-  const get = withApi(handler);
+export function readOnlyRoute(handler: Handler, options: ApiOptions = {}) {
+  const get = withApi(handler, options);
   return {
     GET: get,
     OPTIONS: preflight,

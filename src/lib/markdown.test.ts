@@ -148,6 +148,14 @@ describe("llms.txt", () => {
     expect(text).toContain("/openapi.json");
   });
 
+  it("explains token-saving fields and the versioning policy", () => {
+    const text = renderLlmsTxt();
+    expect(text).toContain("?fields=name,email");
+    expect(text).toContain("?organization=Notion");
+    expect(text).toContain("API-Version");
+    expect(text).toContain("#versioning-and-deprecation");
+  });
+
   it("lists every static page it describes", () => {
     const text = renderLlmsTxt();
     for (const page of getStaticPages()) {

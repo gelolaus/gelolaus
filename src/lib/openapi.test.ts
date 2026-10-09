@@ -84,6 +84,50 @@ describe("OpenAPI document", () => {
     }
   });
 
+  it("gives every operation at least one typed, described parameter", () => {
+    for (const { op } of operations) {
+      expect(op.parameters?.length ?? 0, op.operationId).toBeGreaterThan(0);
+    }
+  });
+
+  it("types every 4xx, 5xx, and default response with the Error schema", () => {
+    for (const { op } of operations) {
+      const failures = Object.entries(op.responses!).filter(
+        ([code]) => code === "default" || /^[45]/.test(code),
+      );
+      expect(failures.length).toBeGreaterThanOrEqual(3);
+      for (const [code, res] of failures) {
+        const media = (res as { content?: Record<string, { schema?: unknown }> })
+          .content?.["application/json"];
+        expect(media?.schema, `${op.operationId} ${code}`).toEqual({
+          $ref: "#/components/schemas/Error",
+        });
+      }
+    }
+  });
+
+  it("lets every operation return a 400 for bad parameters", () => {
+    for (const { op } of operations) {
+      expect(Object.keys(op.responses!)).toContain("400");
+    }
+  });
+
+  it("documents the API-Version header on success responses", () => {
+    for (const { op } of operations) {
+      const ok = op.responses!["200"] as { headers: Record<string, unknown> };
+      expect(ok.headers["API-Version"]).toBeDefined();
+    }
+  });
+
+  it("declares URL versioning and links the deprecation policy", () => {
+    expect(spec.info.version).toMatch(/^1\./);
+    expect(spec.info.description).toMatch(/Deprecation and Sunset/);
+    expect(spec.externalDocs.url).toContain("#versioning-and-deprecation");
+    for (const path of Object.keys(spec.paths)) {
+      expect(path.startsWith("/api/v1/")).toBe(true);
+    }
+  });
+
   it("documents exactly the implemented endpoints", () => {
     expect(Object.keys(spec.paths).sort()).toEqual([
       "/api/v1/profile",

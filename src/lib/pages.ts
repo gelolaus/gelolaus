@@ -1,5 +1,10 @@
-import { RATE_LIMIT } from "@/lib/api";
-import { getProfilePayload, profile, SITE_URL } from "@/lib/profile";
+import { API_VERSION, DEPRECATION_NOTICE_DAYS, RATE_LIMIT } from "@/lib/api";
+import {
+  getProfilePayload,
+  PROFILE_FIELDS,
+  profile,
+  SITE_URL,
+} from "@/lib/profile";
 
 export type StaticPage = {
   path: string;
@@ -129,8 +134,13 @@ None. Every endpoint is public and read-only, so there are no API keys, tokens, 
 
 Returns the full profile: name, handle, summary, location, contact email, social links, roles, and projects. Operation ID: \`getProfile\`.
 
+Query parameters:
+
+- \`fields\` (comma-separated list, optional): only return these top-level properties. Allowed values: ${PROFILE_FIELDS.map((f) => `\`${f}\``).join(", ")}.
+
 \`\`\`bash
 curl -sS ${SITE_URL}/api/v1/profile
+curl -sS "${SITE_URL}/api/v1/profile?fields=name,email"
 \`\`\`
 
 \`\`\`json
@@ -141,8 +151,13 @@ ${example}
 
 Returns the organizations Angelo is currently active in, as \`{ "data": [ { organization, title, url } ] }\`. Operation ID: \`listRoles\`.
 
+Query parameters:
+
+- \`organization\` (string, optional): only return roles at the organization with this name (case-insensitive exact match). No match returns an empty list.
+
 \`\`\`bash
 curl -sS ${SITE_URL}/api/v1/roles
+curl -sS "${SITE_URL}/api/v1/roles?organization=Notion"
 \`\`\`
 
 ### GET /api/v1/projects
@@ -185,11 +200,22 @@ Every error is JSON with the same shape, and the HTTP status always matches \`er
 
 Error codes:
 
-- \`invalid_parameter\` (400): a query parameter is malformed. The \`hint\` shows a valid value.
+- \`invalid_parameter\` (400): a query parameter is malformed or unknown. The \`hint\` shows a valid value.
 - \`not_found\` (404): there is no endpoint at that path.
 - \`method_not_allowed\` (405): the API is read-only. The \`Allow\` header lists supported methods.
 - \`rate_limited\` (429): slow down and retry after the \`Retry-After\` delay.
 - \`internal_error\` (500): something failed on the server. Retry shortly.
+
+## Versioning and deprecation
+
+The major version is part of the URL path (\`/api/v1/...\`) and every API response repeats it in an \`API-Version\` header (currently \`${API_VERSION}\`).
+
+- Within a version, changes are additive only: new endpoints, new optional query parameters, and new response properties. Clients should ignore properties they don't recognize.
+- A breaking change (removing or renaming a property, changing a type, or tightening a parameter) ships under a new path such as \`/api/v2\`. The old version keeps working alongside it.
+- A deprecated endpoint or version responds with a \`Deprecation\` header (RFC 9745, for example \`Deprecation: @1767225600\`) and a \`Link\` header with \`rel="deprecation"\` pointing to this section.
+- Once a removal date is set, responses also carry a \`Sunset\` header (RFC 8594, an HTTP-date). Nothing is removed before that date, and I set it at least ${DEPRECATION_NOTICE_DAYS} days after the deprecation is announced.
+
+No endpoint is deprecated today.
 
 ## Markdown for agents
 

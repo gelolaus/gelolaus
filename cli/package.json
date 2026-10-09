@@ -1,0 +1,21 @@
+{
+  "name": "gelolaus",
+  "version": "1.0.0",
+  "description": "Command-line client for the gelolaus.com public API: Angelo Laus's profile, roles, and projects as JSON.",
+  "keywords": ["gelolaus", "angelo-laus", "cli", "api", "profile"],
+  "homepage": "https://gelolaus.com/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gelolaus/gelolaus.git",
+    "directory": "cli"
+  },
+  "author": "Angelo Laus <hello@gelolaus.com> (https://gelolaus.com)",
+  "type": "module",
+  "bin": {
+    "gelolaus": "bin/gelolaus.mjs"
+  },
+  "files": ["bin", "src/cli.mjs", "README.md"],
+  "engines": {
+    "node": ">=18"
+  }
+}

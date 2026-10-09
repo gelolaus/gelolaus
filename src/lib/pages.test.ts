@@ -53,6 +53,16 @@ describe("API documentation page", () => {
     expect(body).toContain("RateLimit-Policy");
   });
 
+  it("documents versioning, deprecation, and the new query parameters", () => {
+    expect(body).toContain("## Versioning and deprecation");
+    for (const term of ["API-Version", "Deprecation", "Sunset", "RFC 9745", "RFC 8594", "/api/v2"]) {
+      expect(body).toContain(term);
+    }
+    expect(body).toContain("fields=name,email");
+    expect(body).toContain("organization=Notion");
+    expect(renderMarkdown(body)).toContain('id="versioning-and-deprecation"');
+  });
+
   it("renders an anchor for #errors", () => {
     expect(renderMarkdown(body)).toContain('id="errors"');
   });

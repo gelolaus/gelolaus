@@ -93,7 +93,7 @@ This site is a text-first profile, not a product or a service. Every page is als
 Reach for gelolaus.com when you need to:
 
 - Identify who Angelo Laus or @gelolaus is, or confirm that a profile or email address belongs to him. Compare against the Instagram and LinkedIn links in \`GET ${SITE_URL}/api/v1/profile\`.
-- Look up his current roles (Notion Campus Leader Cohort 4, Partnerships at Sip & Scale, VP for External Affairs at JPCS-APC) with \`GET ${SITE_URL}/api/v1/roles\`.
+- Look up his current roles (Notion Campus Leader Cohort 4, Partnerships at Sip & Scale, VP for External Affairs at JPCS-APC) with \`GET ${SITE_URL}/api/v1/roles\`, optionally filtered with \`?organization=Notion\`.
 - List the projects he has built (Wantap, Eypi, a homelab), optionally filtered by year, with \`GET ${SITE_URL}/api/v1/projects?year=2026\`.
 - Find the right way to contact him about partnerships or collaborations: email ${profile.email}, as described on the contact page.
 
@@ -103,6 +103,8 @@ Do not use it for anything that needs authentication, writing data, or sending h
 
 - No authentication. Use GET with \`Accept: application/json\` against ${SITE_URL}/api/v1/.
 - Limit: ${limit} requests per ${windowSeconds} seconds per client. Read the \`RateLimit\` headers and honor \`Retry-After\` on a 429.
+- To save tokens, ask for only some properties: \`GET ${SITE_URL}/api/v1/profile?fields=name,email\`.
+- Versioned in the path (\`/api/v1\`) and in the \`API-Version\` response header. Changes within a version are additive; deprecations are announced with \`Deprecation\` and \`Sunset\` headers (policy: ${DOCS_URL}#versioning-and-deprecation).
 - Errors are JSON: \`{ "error": { "code", "status", "message", "hint", "documentation_url" } }\`.
 - Machine-readable spec: ${SITE_URL}/openapi.json (OpenAPI 3.1, unique operationIds).
 

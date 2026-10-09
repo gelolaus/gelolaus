@@ -1,8 +1,9 @@
-import { RATE_LIMIT } from "@/lib/api";
-import { profile, SITE_URL } from "@/lib/profile";
+import { API_VERSION, RATE_LIMIT } from "@/lib/api";
+import { PROFILE_FIELDS, profile, SITE_URL } from "@/lib/profile";
 
 const ref = (name: string) => ({ $ref: `#/components/schemas/${name}` });
-const response = (name: string) => ({ $ref: `#/components/responses/${name}` });
+
+const versionHeader = { "API-Version": { $ref: "#/components/headers/ApiVersion" } };
 
 const rateLimitHeaders = {
   RateLimit: { $ref: "#/components/headers/RateLimit" },
@@ -15,22 +16,29 @@ const rateLimitHeaders = {
 function ok(description: string, schema: object) {
   return {
     description,
-    headers: rateLimitHeaders,
+    headers: { ...versionHeader, ...rateLimitHeaders },
     content: { "application/json": { schema } },
   };
 }
 
-function listOf(item: string) {
+/** Every error response uses the shared Error schema. */
+function failure(description: string, headers: object = {}) {
   return {
-    type: "object",
-    required: ["data"],
-    properties: { data: { type: "array", items: ref(item) } },
+    description,
+    headers: { ...versionHeader, ...rateLimitHeaders, ...headers },
+    content: { "application/json": { schema: ref("Error") } },
   };
 }
 
+const badRequest = (description: string) => failure(description);
+
 const sharedErrors = {
-  "429": response("RateLimited"),
-  "500": response("InternalError"),
+  "429": failure(
+    `More than ${RATE_LIMIT.limit} requests in ${RATE_LIMIT.windowSeconds} seconds. Wait for Retry-After seconds and retry.`,
+    { "Retry-After": { $ref: "#/components/headers/RetryAfter" } },
+  ),
+  "500": failure("The server failed to process the request. Retry shortly."),
+  default: failure("Any other error, using the same Error object."),
 };
 
 export function getOpenApiSpec() {
@@ -38,16 +46,17 @@ export function getOpenApiSpec() {
     openapi: "3.1.0",
     info: {
       title: "gelolaus.com API",
-      version: "1.0.0",
+      version: `${API_VERSION}.0.0`,
       summary: "Read-only public profile API for Angelo Laus (@gelolaus).",
       description:
-        "Returns the public profile, current roles, and projects of Angelo Laus (@gelolaus). All endpoints are read-only and need no authentication. Errors are JSON with a stable code, a message, and a resolution hint.",
+        "Returns the public profile, current roles, and projects of Angelo Laus (@gelolaus). All endpoints are read-only and need no authentication. Errors are JSON with a stable code, a message, and a resolution hint. The API is versioned in the URL path (/api/v1); breaking changes ship under a new version, and deprecations are announced with Deprecation and Sunset headers (see the versioning policy in the documentation).",
       contact: { name: profile.name, url: SITE_URL, email: profile.email },
     },
     servers: [{ url: SITE_URL, description: "Production" }],
     externalDocs: {
-      description: "Human-readable API documentation",
-      url: `${SITE_URL}/docs`,
+      description:
+        "Human-readable API documentation, including the versioning and deprecation policy",
+      url: `${SITE_URL}/docs#versioning-and-deprecation`,
     },
     tags: [{ name: "Profile", description: "Public profile information." }],
     security: [],
@@ -57,10 +66,29 @@ export function getOpenApiSpec() {
           operationId: "getProfile",
           summary: "Get the full public profile",
           description:
-            "Returns the name, handle, summary, location, contact email, social links, current roles, and projects of Angelo Laus in one response. Use this first to identify or verify who @gelolaus is.",
+            "Returns the name, handle, summary, location, contact email, social links, current roles, and projects of Angelo Laus in one response. Use this first to identify or verify who @gelolaus is. Pass `fields` to receive only some of the properties.",
           tags: ["Profile"],
+          parameters: [
+            {
+              name: "fields",
+              in: "query",
+              required: false,
+              description:
+                "Comma-separated list of top-level properties to return. Omit to return all of them.",
+              style: "form",
+              explode: false,
+              schema: {
+                type: "array",
+                minItems: 1,
+                uniqueItems: true,
+                items: { type: "string", enum: [...PROFILE_FIELDS] },
+              },
+              example: ["name", "email"],
+            },
+          ],
           responses: {
-            "200": ok("The full public profile.", ref("Profile")),
+            "200": ok("The public profile, or the selected fields of it.", ref("Profile")),
+            "400": badRequest("The `fields` parameter names an unknown field. The hint lists the valid ones."),
             ...sharedErrors,
           },
         },
@@ -70,10 +98,22 @@ export function getOpenApiSpec() {
           operationId: "listRoles",
           summary: "List current roles",
           description:
-            "Returns the organizations Angelo Laus is currently active in, with his title at each one.",
+            "Returns the organizations Angelo Laus is currently active in, with his title at each one. Pass `organization` to look up a single organization; an organization with no match returns an empty list.",
           tags: ["Profile"],
+          parameters: [
+            {
+              name: "organization",
+              in: "query",
+              required: false,
+              description:
+                "Only return roles at the organization with this name (case-insensitive exact match).",
+              schema: { type: "string", minLength: 1 },
+              example: "Notion",
+            },
+          ],
           responses: {
-            "200": ok("The list of current roles.", listOf("Role")),
+            "200": ok("The list of current roles.", ref("RoleList")),
+            "400": badRequest("The `organization` parameter is empty."),
             ...sharedErrors,
           },
         },
@@ -96,8 +136,8 @@ export function getOpenApiSpec() {
             },
           ],
           responses: {
-            "200": ok("The list of projects.", listOf("Project")),
-            "400": response("InvalidParameter"),
+            "200": ok("The list of projects.", ref("ProjectList")),
+            "400": badRequest("The `year` parameter is not a four-digit year."),
             ...sharedErrors,
           },
         },
@@ -107,17 +147,8 @@ export function getOpenApiSpec() {
       schemas: {
         Profile: {
           type: "object",
-          required: [
-            "name",
-            "handle",
-            "summary",
-            "location",
-            "url",
-            "email",
-            "links",
-            "roles",
-            "projects",
-          ],
+          description:
+            "The public profile. When `fields` is used, only the selected properties are present.",
           properties: {
             name: { type: "string", description: "Full name.", example: profile.name },
             handle: { type: "string", description: "Handle used across platforms.", example: profile.handle },
@@ -136,6 +167,20 @@ export function getOpenApiSpec() {
             },
             roles: { type: "array", items: ref("Role") },
             projects: { type: "array", items: ref("Project") },
+          },
+        },
+        RoleList: {
+          type: "object",
+          required: ["data"],
+          properties: {
+            data: { type: "array", description: "Matching roles.", items: ref("Role") },
+          },
+        },
+        ProjectList: {
+          type: "object",
+          required: ["data"],
+          properties: {
+            data: { type: "array", description: "Matching projects.", items: ref("Project") },
           },
         },
         Role: {
@@ -190,6 +235,11 @@ export function getOpenApiSpec() {
         },
       },
       headers: {
+        ApiVersion: {
+          description:
+            "Major version of the API that served the response, for example `1`.",
+          schema: { type: "string", example: API_VERSION },
+        },
         RateLimit: {
           description:
             'Remaining quota as a structured field, for example `"default";r=59;t=42` (requests left, seconds until reset).',
@@ -215,27 +265,7 @@ export function getOpenApiSpec() {
           description: "Seconds to wait before retrying.",
           schema: { type: "integer" },
         },
-      },
-      responses: {
-        InvalidParameter: {
-          description: "A query parameter is malformed. The hint shows a valid value.",
-          headers: rateLimitHeaders,
-          content: { "application/json": { schema: ref("Error") } },
-        },
-        RateLimited: {
-          description: `More than ${RATE_LIMIT.limit} requests in ${RATE_LIMIT.windowSeconds} seconds. Wait for Retry-After seconds and retry.`,
-          headers: {
-            ...rateLimitHeaders,
-            "Retry-After": { $ref: "#/components/headers/RetryAfter" },
-          },
-          content: { "application/json": { schema: ref("Error") } },
-        },
-        InternalError: {
-          description: "The server failed to process the request. Retry shortly.",
-          headers: rateLimitHeaders,
-          content: { "application/json": { schema: ref("Error") } },
-        },
-      },
+      }
     },
   };
 }

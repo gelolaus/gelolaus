@@ -66,8 +66,26 @@ export const projects: Project[] = [
   },
 ];
 
-export function getProfilePayload() {
-  return {
+export const PROFILE_FIELDS = [
+  "name",
+  "handle",
+  "summary",
+  "location",
+  "url",
+  "email",
+  "links",
+  "roles",
+  "projects",
+] as const;
+
+export type ProfileField = (typeof PROFILE_FIELDS)[number];
+
+export function isProfileField(value: string): value is ProfileField {
+  return (PROFILE_FIELDS as readonly string[]).includes(value);
+}
+
+export function getProfilePayload(fields?: readonly ProfileField[]) {
+  const full = {
     name: profile.name,
     handle: profile.handle,
     summary: profile.intro,
@@ -78,10 +96,20 @@ export function getProfilePayload() {
     roles,
     projects,
   };
+  if (!fields) return full;
+  return Object.fromEntries(
+    PROFILE_FIELDS.filter((f) => fields.includes(f)).map((f) => [f, full[f]]),
+  );
 }
 
-export function getRolesPayload() {
-  return { data: roles };
+export function getRolesPayload(organization?: string) {
+  const data =
+    organization === undefined
+      ? roles
+      : roles.filter(
+          (r) => r.organization.toLowerCase() === organization.toLowerCase(),
+        );
+  return { data };
 }
 
 export function getProjectsPayload(year?: number) {
