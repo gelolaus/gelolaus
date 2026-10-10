@@ -1,5 +1,7 @@
 export const SITE_URL = "https://gelolaus.com";
 
+export const PH100_URL = "https://stellarph.io/programs/ph100/2026";
+
 export type Role = {
   organization: string;
   title: string;
@@ -28,13 +30,14 @@ export const profile = {
 export const roles: Role[] = [
   {
     organization: "Notion",
-    title: "Campus Leader (Cohort 4)",
-    url: "https://instagram.com/notionhq",
+    title:
+      "for Startups Partner, Templates Creator, and Campus Leader (Cohort 4)",
+    url: "https://notion.com",
   },
   {
     organization: "Sip & Scale",
     title: "Partnerships",
-    url: "https://instagram.com/sipnscale",
+    url: "https://sipnscale.com/",
   },
   {
     organization: "JPCS-APC",

@@ -27,9 +27,13 @@ const about: StaticPage = {
 
 ## What I'm doing now
 
-- **Notion Campus Leader (Cohort 4).**
+- **[Notion](https://notion.com)** for Startups Partner, Templates Creator, and Campus Leader (Cohort 4).
 - **Partnerships at Sip & Scale.**
 - **VP for External Affairs at JPCS-APC**, the Junior Philippine Computer Society chapter at Asia Pacific College.
+
+## Recognition
+
+- Recognized as part of [StellarPH's PH100 Cohort](https://stellarph.io/programs/ph100/2026) for 2026, powered by PayMongo. The PH100 is the annual list of the brightest minds under 30 in the Philippines.
 
 ## What I've built
 

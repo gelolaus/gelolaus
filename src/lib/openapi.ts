@@ -188,7 +188,7 @@ export function getOpenApiSpec() {
           required: ["organization", "title", "url"],
           properties: {
             organization: { type: "string", description: "Organization name.", example: "Notion" },
-            title: { type: "string", description: "My role there.", example: "Campus Leader (Cohort 4)" },
+            title: { type: "string", description: "My role there.", example: "for Startups Partner, Templates Creator, and Campus Leader (Cohort 4)" },
             url: { type: "string", format: "uri", description: "The organization's public profile." },
           },
         },
