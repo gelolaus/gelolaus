@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/avatar.png" alt="Angelo Laus" width="120" />
+</p>
+
 # Angelo Laus
 
 I'm @gelolaus, a builder and community leader from the Philippines.
@@ -15,5 +19,9 @@ Things I've built:
 - Homelab (2026) – Self-hosted infrastructure for private cloud storage and network security.
 
 Connect with me on [Instagram](https://instagram.com/gelolaus) or [LinkedIn](https://linkedin.com/in/gelolaus), or email [hello@gelolaus.com](mailto:hello@gelolaus.com).
+
+<p align="center">
+  <img src="public/images/badges/ph100-2026.png" alt="I'm part of PH100 2026, powered by PayMongo and organised by StellarPH" width="200" />
+</p>
 
 Recognized as part of [StellarPH's PH100 Cohort](https://stellarph.io/programs/ph100/2026) for 2026.
