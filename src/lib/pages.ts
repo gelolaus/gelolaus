@@ -47,7 +47,7 @@ I'm interested in cybersecurity, web development, UI/UX design, and productivity
 
 ## Verify me
 
-This website, [gelolaus.com](${SITE_URL}), is my official home on the web. You can cross-check me on [Instagram](${profile.links.instagram}) and [LinkedIn](${profile.links.linkedin}), and you can reach me through the details on the [contact page](${SITE_URL}/contact).`,
+This website, [gelolaus.com](${SITE_URL}), is my official home on the web. You can cross-check me on [Instagram](${profile.links.instagram}), [LinkedIn](${profile.links.linkedin}), and [GitHub](${profile.links.github}), and you can reach me through the details on the [contact page](${SITE_URL}/contact).`,
 };
 
 const contact: StaticPage = {
@@ -55,7 +55,7 @@ const contact: StaticPage = {
   heading: "Contact",
   title: "Contact · gelolaus",
   description:
-    "How to reach me (Angelo Laus, @gelolaus): email, Instagram, and LinkedIn.",
+    "How to reach me (Angelo Laus, @gelolaus): email, Instagram, LinkedIn, and GitHub.",
   body: `The best way to reach me is email. I read my inbox and reply when I can.
 
 ## Email
@@ -68,6 +68,7 @@ This is the only email address I use for this website. If someone claiming to be
 
 - [Instagram: @gelolaus](${profile.links.instagram})
 - [LinkedIn: gelolaus](${profile.links.linkedin})
+- [GitHub: gelolaus](${profile.links.github})
 
 ## What to write to me about
 
@@ -106,11 +107,11 @@ The [API](${SITE_URL}/docs) returns public information only. To enforce a limit 
 
 ## Email and social media
 
-If you email me, I receive your address and whatever you write, and I keep the conversation as long as it is useful to reply to you. I won't add you to a mailing list. Messages on Instagram or LinkedIn are handled under those platforms' own privacy policies.
+If you email me, I receive your address and whatever you write, and I keep the conversation as long as it is useful to reply to you. I won't add you to a mailing list. Messages on Instagram, LinkedIn, or GitHub are handled under those platforms' own privacy policies.
 
 ## Links to other sites
 
-This site links to other websites such as Instagram, LinkedIn, Wantap, and Eypi. I don't control what they collect, so check their privacy policies.
+This site links to other websites such as Instagram, LinkedIn, GitHub, Wantap, and Eypi. I don't control what they collect, so check their privacy policies.
 
 ## Questions or deletion requests
 

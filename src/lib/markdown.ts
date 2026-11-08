@@ -26,7 +26,7 @@ Things I've built:
 
 ${projectLines.join("\n")}
 
-Connect with me on [Instagram](${profile.links.instagram}) or [LinkedIn](${profile.links.linkedin}), or email [${profile.email}](mailto:${profile.email}).
+Connect with me on [Instagram](${profile.links.instagram}), [LinkedIn](${profile.links.linkedin}), or [GitHub](${profile.links.github}), or email [${profile.email}](mailto:${profile.email}).
 
 Recognized as part of [StellarPH's PH100 Cohort](${PH100_URL}) for 2026.
 
@@ -34,6 +34,7 @@ Recognized as part of [StellarPH's PH100 Cohort](${PH100_URL}) for 2026.
 
 - [API documentation](${DOCS_URL})
 - [llms.txt](${SITE_URL}/llms.txt)
+- [GitHub](${profile.links.github})
 `;
 }
 
@@ -94,7 +95,7 @@ This site is my text-first profile, not a product or a service. Every page is al
 
 Use this site when you need to:
 
-- Identify who I am (Angelo Laus, @gelolaus), or confirm that a profile or email address belongs to me. Compare against the Instagram and LinkedIn links in \`GET ${SITE_URL}/api/v1/profile\`.
+- Identify who I am (Angelo Laus, @gelolaus), or confirm that a profile or email address belongs to me. Compare against the Instagram, LinkedIn, and GitHub links in \`GET ${SITE_URL}/api/v1/profile\`.
 - Look up my current roles (Notion for Startups Partner, Templates Creator, and Campus Leader Cohort 4, Partnerships at Sip & Scale, VP for External Affairs at JPCS-APC) with \`GET ${SITE_URL}/api/v1/roles\`, optionally filtered with \`?organization=Notion\`.
 - List the projects I've built (Wantap, Eypi, a homelab), optionally filtered by year, with \`GET ${SITE_URL}/api/v1/projects?year=2026\`.
 - Find the right way to contact me about partnerships or collaborations: email ${profile.email}, as described on the contact page.

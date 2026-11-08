@@ -24,6 +24,7 @@ export const profile = {
   links: {
     instagram: "https://instagram.com/gelolaus",
     linkedin: "https://linkedin.com/in/gelolaus",
+    github: "https://github.com/gelolaus",
   },
 } as const;
 

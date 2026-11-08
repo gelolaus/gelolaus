@@ -159,10 +159,11 @@ export function getOpenApiSpec() {
             links: {
               type: "object",
               description: "My social profiles.",
-              required: ["instagram", "linkedin"],
+              required: ["instagram", "linkedin", "github"],
               properties: {
                 instagram: { type: "string", format: "uri", description: "My Instagram profile." },
                 linkedin: { type: "string", format: "uri", description: "My LinkedIn profile." },
+                github: { type: "string", format: "uri", description: "My GitHub profile." },
               },
             },
             roles: { type: "array", items: ref("Role") },

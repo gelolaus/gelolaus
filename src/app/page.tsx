@@ -47,10 +47,14 @@ export default function Home() {
         Connect with me on{" "}
         <a href={profile.links.instagram} {...ext}>
           Instagram
-        </a>{" "}
-        or{" "}
+        </a>
+        ,{" "}
         <a href={profile.links.linkedin} {...ext}>
           LinkedIn
+        </a>
+        , or{" "}
+        <a href={profile.links.github} {...ext}>
+          GitHub
         </a>
         , or email <a href={`mailto:${profile.email}`}>{profile.email}</a>.
       </p>

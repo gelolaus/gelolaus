@@ -18,7 +18,7 @@ Things I've built:
 - [Eypi (2026)](https://eypi.cc) – Unified campus suite for student org links, forms, and ticketing.
 - Homelab (2026) – Self-hosted infrastructure for private cloud storage and network security.
 
-Connect with me on [Instagram](https://instagram.com/gelolaus) or [LinkedIn](https://linkedin.com/in/gelolaus), or email [hello@gelolaus.com](mailto:hello@gelolaus.com).
+Connect with me on [Instagram](https://instagram.com/gelolaus), [LinkedIn](https://linkedin.com/in/gelolaus), or [GitHub](https://github.com/gelolaus), or email [hello@gelolaus.com](mailto:hello@gelolaus.com).
 
 <p align="center">
   <img src="public/images/badges/ph100-2026.png" alt="I'm part of PH100 2026, powered by PayMongo and organised by StellarPH" />

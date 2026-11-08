@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { SiteFooter } from "@/components/site-footer";
 import { getAllPosts, getPostBySlug } from "@/lib/blog";
 
 export async function generateStaticParams() {
@@ -66,6 +67,8 @@ export default async function BlogPostPage({
         className="prose"
         dangerouslySetInnerHTML={{ __html: post.contentHtml }}
       />
+
+      <SiteFooter />
     </main>
   );
 }

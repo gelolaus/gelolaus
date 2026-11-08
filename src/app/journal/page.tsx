@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SiteFooter } from "@/components/site-footer";
 import { getAllPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
@@ -40,6 +41,8 @@ export default function JournalPage() {
           </li>
         ))}
       </ul>
+
+      <SiteFooter />
     </main>
   );
 }
