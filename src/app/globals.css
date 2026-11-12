@@ -278,3 +278,66 @@ h1 + p {
   color: var(--ink);
   text-decoration-color: currentColor;
 }
+
+/* ─── Link preview cards ─── */
+.preview-link {
+  -webkit-touch-callout: none;
+}
+
+.link-preview-card {
+  position: fixed;
+  z-index: 50;
+  display: block;
+  width: 280px;
+  overflow: hidden;
+  background: var(--canvas);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgb(0 0 0 / 12%);
+  text-decoration: none;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease;
+}
+
+.link-preview-card[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+.link-preview-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--fill);
+}
+
+.link-preview-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem 1rem 1rem;
+}
+
+.link-preview-title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.link-preview-description {
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link-preview-card {
+    transition: none;
+    transform: none;
+  }
+}
