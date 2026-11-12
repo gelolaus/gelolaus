@@ -32,6 +32,8 @@ export function LinkPreviewCard({
       tabIndex={-1}
       aria-hidden="true"
       style={style}
+      // Keep focus on the link: otherwise its blur unmounts the card before click.
+      onMouseDown={(e) => e.preventDefault()}
       onPointerEnter={(e) => onPointerEnter?.(e.pointerType)}
       onPointerLeave={(e) => onPointerLeave?.(e.pointerType)}
     >

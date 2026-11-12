@@ -39,6 +39,8 @@ export function createPreviewController({
     graceTimer = clear(graceTimer);
     if (!open) return;
     open = false;
+    // A hold whose click never arrived must not swallow a later activation.
+    suppressClick = false;
     onClose();
   };
 

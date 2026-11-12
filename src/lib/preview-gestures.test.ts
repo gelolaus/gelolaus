@@ -105,6 +105,15 @@ describe("touch hold", () => {
     expect(onOpen).not.toHaveBeenCalled();
   });
 
+  it("drops suppression when the card closes, so a later activation is not swallowed", () => {
+    const { c } = setup();
+    c.pointerDown("touch");
+    vi.advanceTimersByTime(400);
+    c.pointerUp("touch"); // the click never arrives
+    c.dismiss();
+    expect(c.consumeSuppressedClick()).toBe(false);
+  });
+
   it("clears stale suppression on the next touch", () => {
     const { c } = setup();
     c.pointerDown("touch");
