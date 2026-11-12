@@ -34,7 +34,6 @@ Recognized as part of [StellarPH's PH100 Cohort](${PH100_URL}) for 2026.
 
 - [API documentation](${DOCS_URL})
 - [llms.txt](${SITE_URL}/llms.txt)
-- [GitHub](${profile.links.github})
 `;
 }
 

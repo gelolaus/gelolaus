@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { profile } from "@/lib/profile";
 
 const links = [
   { href: "/docs", label: "API docs" },
@@ -15,9 +14,6 @@ export function SiteFooter() {
           </Link>
         ))}
         <a href="/llms.txt">llms.txt</a>
-        <a href={profile.links.github} target="_blank" rel="noopener noreferrer">
-          GitHub
-        </a>
       </nav>
     </footer>
   );
