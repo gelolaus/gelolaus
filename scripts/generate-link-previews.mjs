@@ -60,6 +60,14 @@ async function dismissBanners(page) {
 }
 
 async function capture(page, url) {
+  try {
+    return await captureUnsafe(page, url);
+  } catch (error) {
+    return { failed: error.message.split("\n")[0] };
+  }
+}
+
+async function captureUnsafe(page, url) {
   let status = null;
   try {
     const response = await page.goto(url, { timeout: 20000, waitUntil: "load" });
@@ -107,23 +115,25 @@ const context = await browser.newContext({
 });
 const page = await context.newPage();
 
-for (const url of urls) {
-  if (isFullOverride(url)) {
-    console.log(`skipped  ${url} (hand-written override)`);
-    continue;
+try {
+  for (const url of urls) {
+    if (isFullOverride(url)) {
+      console.log(`skipped  ${url} (hand-written override)`);
+      continue;
+    }
+    const out = await capture(page, url);
+    if (out.failed) {
+      results[url] = null;
+      console.log(`FAILED   ${url} — ${out.failed}`);
+      continue;
+    }
+    fs.writeFileSync(path.join(imageDir, `${out.slug}.jpg`), out.shot);
+    results[url] = out.entry;
+    console.log(`ok       ${url} — "${out.entry.title}"`);
   }
-  const out = await capture(page, url);
-  if (out.failed) {
-    results[url] = null;
-    console.log(`FAILED   ${url} — ${out.failed}`);
-    continue;
-  }
-  fs.writeFileSync(path.join(imageDir, `${out.slug}.jpg`), out.shot);
-  results[url] = out.entry;
-  console.log(`ok       ${url} — "${out.entry.title}"`);
+} finally {
+  await browser.close();
 }
-
-await browser.close();
 
 const merged = mergeResults(previous, results);
 const sorted = Object.fromEntries(
