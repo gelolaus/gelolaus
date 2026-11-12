@@ -79,6 +79,7 @@ export const previewOverrides: Record<
   string,
   Partial<{ title: string; description: string; domain: string; image: string }>
 > = {
+  "https://notion.com": { title: "Notion" },
   "https://instagram.com/jpcs.apc": {
     title: "JPCS-APC",
     description: "APC's student tech org, where I'm VP for External Affairs.",

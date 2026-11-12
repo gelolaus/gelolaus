@@ -38,6 +38,10 @@ describe("getPreview", () => {
     });
   });
 
+  it("shortens the Notion title with an override", () => {
+    expect(getPreview("https://notion.com")?.title).toBe("Notion");
+  });
+
   it("matches generated data despite trailing slash and www", () => {
     const data = { "https://eypi.cc": full };
     expect(getPreview("https://www.eypi.cc/", data, {})).toEqual(full);
