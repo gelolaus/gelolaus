@@ -1,5 +1,7 @@
 import Image from "next/image";
+import { PreviewLink } from "@/components/preview-link";
 import { SiteFooter } from "@/components/site-footer";
+import { getPreview } from "@/lib/link-previews";
 import { PH100_URL, profile, projects, roles } from "@/lib/profile";
 import ph100Badge from "../../public/images/badges/ph100-2026.png";
 
@@ -16,9 +18,13 @@ export default function Home() {
       <ul className="home-list">
         {roles.map((role) => (
           <li key={role.organization}>
-            <a href={role.url} {...ext}>
+            <PreviewLink
+              href={role.url}
+              preview={getPreview(role.url)}
+              {...ext}
+            >
               {role.organization}
-            </a>{" "}
+            </PreviewLink>{" "}
             {role.title}
           </li>
         ))}
@@ -31,9 +37,13 @@ export default function Home() {
           return (
             <li key={project.name}>
               {project.url ? (
-                <a href={project.url} {...ext}>
+                <PreviewLink
+                  href={project.url}
+                  preview={getPreview(project.url)}
+                  {...ext}
+                >
                   {label}
-                </a>
+                </PreviewLink>
               ) : (
                 label
               )}{" "}
@@ -69,9 +79,13 @@ export default function Home() {
         />
         <figcaption>
           Recognized as part of{" "}
-          <a href={PH100_URL} {...ext}>
+          <PreviewLink
+            href={PH100_URL}
+            preview={getPreview(PH100_URL)}
+            {...ext}
+          >
             StellarPH&rsquo;s PH100 Cohort
-          </a>{" "}
+          </PreviewLink>{" "}
           for 2026
         </figcaption>
       </figure>
