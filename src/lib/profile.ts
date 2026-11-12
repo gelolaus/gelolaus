@@ -70,6 +70,23 @@ export const projects: Project[] = [
   },
 ];
 
+/**
+ * Hand-written hover-card data, keyed by URL. Beats anything produced by
+ * `npm run previews`. Kept apart from `roles`/`projects` so API payloads
+ * stay unchanged.
+ */
+export const previewOverrides: Record<
+  string,
+  Partial<{ title: string; description: string; domain: string; image: string }>
+> = {
+  "https://instagram.com/jpcs.apc": {
+    title: "JPCS-APC",
+    description: "APC's student tech org, where I'm VP for External Affairs.",
+    domain: "instagram.com/jpcs.apc",
+    image: "/images/link-previews/jpcs-apc.jpg",
+  },
+};
+
 export const PROFILE_FIELDS = [
   "name",
   "handle",
