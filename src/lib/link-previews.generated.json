@@ -1,1 +1,32 @@
-{}
+{
+  "https://eypi.cc": {
+    "title": "Eypi · Links and org tools for APC",
+    "description": "Short links, official paperwork, event tickets, and org pages. One APC login, zero ads.",
+    "domain": "eypi.cc",
+    "image": "/images/link-previews/eypi-cc.jpg"
+  },
+  "https://notion.com": {
+    "title": "The AI workspace that works for you. | Notion",
+    "description": "Build Custom Agents, search across all your apps, and automate busywork. The AI workspace where teams get…",
+    "domain": "notion.com",
+    "image": "/images/link-previews/notion-com.jpg"
+  },
+  "https://sipnscale.com/": {
+    "title": "Sip & Scale",
+    "description": "Join intimate founder dinners, startup mixers, and builder events across 35+ cities worldwide.",
+    "domain": "sipnscale.com",
+    "image": "/images/link-previews/sipnscale-com.jpg"
+  },
+  "https://stellarph.io/programs/ph100/2026": {
+    "title": "PH100 of 2026 | StellarPH",
+    "description": "The PH100 is an annual list that spotlights the 100 brightest minds within the Filipino startup ecosystem…",
+    "domain": "stellarph.io",
+    "image": "/images/link-previews/stellarph-io-programs-ph100-2026.jpg"
+  },
+  "https://wantap.cc": {
+    "title": "Wantap — A digital card you can actually redesign",
+    "description": "Reorder blocks, recolor everything, swap fonts — then share with a QR or link. No app install on their end.",
+    "domain": "wantap.cc",
+    "image": "/images/link-previews/wantap-cc.jpg"
+  }
+}
