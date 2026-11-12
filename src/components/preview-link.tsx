@@ -81,8 +81,9 @@ function InteractivePreviewLink({
       viewport: { width: window.innerWidth, height: window.innerHeight },
     });
     setStyle({ left, top });
-    const frame = requestAnimationFrame(() => setVisible(true));
-    return () => cancelAnimationFrame(frame);
+    // A timeout (not rAF) so a throttled tab can't leave the card invisible.
+    const timer = setTimeout(() => setVisible(true), 20);
+    return () => clearTimeout(timer);
   }, [open]);
 
   // Close on Escape, on a press outside, and when the page moves under the card.
@@ -116,7 +117,11 @@ function InteractivePreviewLink({
         href={href}
         className={["preview-link", className].filter(Boolean).join(" ")}
         aria-describedby={open ? cardId : undefined}
-        onPointerEnter={(e) => controller.pointerEnter(kindOf(e.pointerType))}
+        onPointerEnter={(e) => {
+          // Start fetching the screenshot during the hover delay.
+          if (kindOf(e.pointerType) !== "touch") new Image().src = preview.image;
+          controller.pointerEnter(kindOf(e.pointerType));
+        }}
         onPointerLeave={(e) => controller.pointerLeave(kindOf(e.pointerType))}
         onPointerDown={(e) => {
           lastPointer.current = kindOf(e.pointerType);
