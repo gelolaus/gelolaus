@@ -125,6 +125,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
+        <link rel="ai-catalog" href="/.well-known/ai-catalog.json" />
         <WebMcp />
         {children}
       </body>
