@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- JSON-RPC replies are inspected loosely in tests */
 import { describe, expect, it } from "vitest";
 import { handleMcpMessage, MCP_PROTOCOL_VERSION } from "@/lib/mcp";
 
