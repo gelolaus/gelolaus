@@ -5,7 +5,7 @@ describe("robots.txt", () => {
   const txt = renderRobotsTxt();
 
   it("allows everyone by default", () => {
-    expect(txt).toMatch(/User-Agent: \*\nAllow: \//);
+    expect(txt).toMatch(/User-Agent: \*\n(?:Content-Signal: .*\n)?Allow: \//);
   });
 
   it("keeps blocking AI training crawlers", () => {
