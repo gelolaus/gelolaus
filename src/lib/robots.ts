@@ -42,5 +42,5 @@ export function renderRobotsTxt(): string {
       .filter(Boolean)
       .join("\n"),
   );
-  return `${groups.join("\n\n")}\n\nSitemap: ${SITE_URL}/sitemap.xml\n`;
+  return `${groups.join("\n\n")}\n\nSitemap: ${SITE_URL}/sitemap.xml\nAgentmap: ${SITE_URL}/.well-known/ai-catalog.json\n`;
 }

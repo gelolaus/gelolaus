@@ -19,6 +19,10 @@ describe("robots.txt", () => {
     );
   });
 
+  it("points agents at the ai-catalog", () => {
+    expect(txt).toContain("Agentmap: https://gelolaus.com/.well-known/ai-catalog.json");
+  });
+
   it("points to the sitemap", () => {
     expect(txt).toContain("Sitemap: https://gelolaus.com/sitemap.xml");
   });
