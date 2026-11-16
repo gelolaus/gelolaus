@@ -1,4 +1,3 @@
-import { API_RESOURCE } from "@/lib/oauth";
 import { MCP_ENDPOINT } from "@/lib/mcp";
 import { profile, SITE_URL } from "@/lib/profile";
 
@@ -18,7 +17,7 @@ None. There is no registration endpoint, no account, and no credential to obtain
 
 ## Authentication
 
-- Protected resource: \`${API_RESOURCE}\`
+- Protected resource: \`${SITE_URL}\`
 - MCP server: \`${MCP_ENDPOINT}\`
 - Send no \`Authorization\` header. Requests with one are treated like any other.
 

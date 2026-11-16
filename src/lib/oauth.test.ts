@@ -11,7 +11,7 @@ describe("OAuth discovery metadata", () => {
   const as = getAuthorizationServerMetadata();
 
   it("points the resource at the issuer that serves its metadata", () => {
-    expect(prm.resource).toBe("https://gelolaus.com/api/v1");
+    expect(prm.resource).toBe("https://gelolaus.com");
     expect(prm.authorization_servers).toContain(as.issuer);
     expect(prm.bearer_methods_supported).toContain("header");
   });
@@ -28,9 +28,18 @@ describe("OAuth discovery metadata", () => {
 
   it("serves both documents as open JSON", async () => {
     for (const GET of [authServer, protectedResource]) {
-      const res = GET();
+      const res = GET(new Request("https://gelolaus.com/x"));
       expect(res.headers.get("access-control-allow-origin")).toBe("*");
       expect(res.headers.get("content-type")).toContain("application/json");
     }
+  });
+});
+
+describe("protected resource origin", () => {
+  it("uses the origin the document is fetched from", async () => {
+    const res = protectedResource(
+      new Request("https://www.gelolaus.com/.well-known/oauth-protected-resource"),
+    );
+    expect((await res.json()).resource).toBe("https://www.gelolaus.com");
   });
 });

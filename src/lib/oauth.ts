@@ -1,15 +1,14 @@
 import { SITE_URL } from "@/lib/profile";
 
-export const API_RESOURCE = `${SITE_URL}/api/v1`;
 export const AUTH_MD_URL = `${SITE_URL}/auth.md`;
 
 /**
- * RFC 9728 protected resource metadata. The API is public and read-only, so
+ * RFC 9728 protected resource metadata for the whole origin. The API is public and read-only, so
  * no authorization server issues tokens for it and no scopes exist.
  */
-export function getProtectedResourceMetadata() {
+export function getProtectedResourceMetadata(origin: string = SITE_URL) {
   return {
-    resource: API_RESOURCE,
+    resource: origin,
     authorization_servers: [SITE_URL],
     scopes_supported: [] as string[],
     bearer_methods_supported: ["header"],
