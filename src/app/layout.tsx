@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { WebMcp } from "@/components/web-mcp";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -124,6 +125,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
+        <WebMcp />
         {children}
       </body>
     </html>
