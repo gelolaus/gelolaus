@@ -39,7 +39,7 @@ export function prefersMarkdown(accept: string | null | undefined): boolean {
   return markdown.index < html.index;
 }
 
-const NON_PAGE_PREFIXES = ["/api", "/_next", "/md", "/.well-known"];
+const NON_PAGE_PREFIXES = ["/api", "/_next", "/md", "/mcp", "/.well-known"];
 
 /** Page routes that have a Markdown representation (not APIs or files). */
 export function isNegotiablePath(pathname: string): boolean {

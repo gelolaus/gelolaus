@@ -41,6 +41,8 @@ describe("isNegotiablePath", () => {
     ["/md/about", false],
     ["/_next/static/chunk.js", false],
     ["/.well-known/api-catalog", false],
+    ["/mcp", false],
+    ["/.well-known/mcp/server-card.json", false],
     ["/openapi.json", false],
     ["/llms.txt", false],
     ["/sitemap.xml", false],
