@@ -2,6 +2,12 @@ import { SITE_URL } from "@/lib/profile";
 
 type Rule = { userAgent: string; allow?: string; disallow?: string };
 
+/**
+ * Content Signals (contentsignals.org): no AI training, search indexing is
+ * welcome, and no use as live AI input.
+ */
+export const CONTENT_SIGNAL = "ai-train=no, search=yes, ai-input=no";
+
 /** AI crawlers that are asked to stay away entirely. */
 const BLOCKED_AI_CRAWLERS = [
   "GPTBot", // OpenAI
@@ -29,6 +35,7 @@ export function renderRobotsTxt(): string {
   const groups = robotsRules.map((rule) =>
     [
       `User-Agent: ${rule.userAgent}`,
+      rule.userAgent === "*" ? `Content-Signal: ${CONTENT_SIGNAL}` : null,
       rule.allow ? `Allow: ${rule.allow}` : null,
       rule.disallow ? `Disallow: ${rule.disallow}` : null,
     ]

@@ -13,6 +13,12 @@ describe("robots.txt", () => {
     expect(txt).toMatch(/User-Agent: ClaudeBot\nDisallow: \//);
   });
 
+  it("declares content signals for all crawlers", () => {
+    expect(txt).toContain(
+      "User-Agent: *\nContent-Signal: ai-train=no, search=yes, ai-input=no\nAllow: /",
+    );
+  });
+
   it("points to the sitemap", () => {
     expect(txt).toContain("Sitemap: https://gelolaus.com/sitemap.xml");
   });
