@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GET as authServer } from "@/app/.well-known/oauth-authorization-server/route";
 import { GET as protectedResource } from "@/app/.well-known/oauth-protected-resource/route";
+import { renderAuthMd } from "@/lib/auth-md";
 import {
   getAuthorizationServerMetadata,
   getProtectedResourceMetadata,
@@ -14,6 +15,11 @@ describe("OAuth discovery metadata", () => {
     expect(prm.resource).toBe("https://gelolaus.com");
     expect(prm.authorization_servers).toContain(as.issuer);
     expect(prm.bearer_methods_supported).toContain("header");
+  });
+
+  it("lists a non-empty scope list and explains it in auth.md", () => {
+    expect(prm.scopes_supported).toEqual(["profile:read"]);
+    expect(renderAuthMd()).toContain("profile:read");
   });
 
   it("does not advertise endpoints that do not exist", () => {

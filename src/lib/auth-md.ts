@@ -19,6 +19,7 @@ None. There is no registration endpoint, no account, and no credential to obtain
 
 - Protected resource: \`${SITE_URL}\`
 - MCP server: \`${MCP_ENDPOINT}\`
+- The scope \`profile:read\` names the read access every endpoint already grants. It is never requested, and no token is issued for it.
 - Send no \`Authorization\` header. Requests with one are treated like any other.
 
 ## Metadata
