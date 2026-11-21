@@ -109,6 +109,48 @@ h1 + p {
   color: var(--ink-secondary);
 }
 
+/* ─── GitHub contributions ─── */
+.contributions {
+  --level-0: var(--fill);
+  --level-1: #9be9a8;
+  --level-2: #40c463;
+  --level-3: #30a14e;
+  --level-4: #216e39;
+  margin-block: 0 2.5rem;
+}
+
+.dark .contributions {
+  --level-1: #0e4429;
+  --level-2: #006d32;
+  --level-3: #26a641;
+  --level-4: #39d353;
+}
+
+.contributions-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--weeks), 1fr);
+  grid-template-rows: repeat(7, auto);
+  grid-auto-flow: column;
+  gap: clamp(1px, 0.4vw, 3px);
+}
+
+.contributions-day {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background: var(--level-0);
+}
+
+.contributions-day[data-level="1"] { background: var(--level-1); }
+.contributions-day[data-level="2"] { background: var(--level-2); }
+.contributions-day[data-level="3"] { background: var(--level-3); }
+.contributions-day[data-level="4"] { background: var(--level-4); }
+
+.contributions figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.9375rem;
+  color: var(--ink-secondary);
+}
+
 .meta {
   font-family: var(--font-geist-mono), monospace;
   font-size: 0.8125rem;

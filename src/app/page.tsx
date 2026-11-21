@@ -1,13 +1,17 @@
 import Image from "next/image";
 import { PreviewLink } from "@/components/preview-link";
+import { ContributionGraph } from "@/components/contribution-graph";
 import { SiteFooter } from "@/components/site-footer";
+import { getContributions } from "@/lib/github-contributions";
 import { getPreview } from "@/lib/link-previews";
 import { PH100_URL, profile, projects, roles } from "@/lib/profile";
 import ph100Badge from "../../public/images/badges/ph100-2026.png";
 
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
 
-export default function Home() {
+export default async function Home() {
+  const contributions = await getContributions();
+
   return (
     <main className="page">
       <h1>{profile.name}</h1>
@@ -89,6 +93,13 @@ export default function Home() {
           for 2026
         </figcaption>
       </figure>
+
+      {contributions && (
+        <ContributionGraph
+          data={contributions}
+          profileUrl={profile.links.github}
+        />
+      )}
 
       <SiteFooter />
     </main>
